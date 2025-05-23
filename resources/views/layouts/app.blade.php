@@ -19,10 +19,10 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto">
         <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('') }}">Profile</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('') }}">Visi & Misi</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('') }}">Tata Tertib</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ url('/') }}">Buku</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('profile') }}">Profile</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('visi') }}">Visi & Misi</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('tata_tertib') }}">Tata Tertib</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url('/buku') }}">Buku</a></li>
       </ul>
     </div>
   </div>
