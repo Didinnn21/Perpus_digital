@@ -21,3 +21,15 @@ Route::get('/', function () {
 Route::get('/', function () {
     return view('home');
 })->name('home');
+
+Route::get('/profile', function () {
+    return view('profile');
+})->name('profile');
+
+Route::get('/visi-misi', function () {
+    return view('visi');
+})->name('visi');
+
+Route::get('/tata-tertib', function () {
+    return view('tata_tertib');
+})->name('tata_tertib');
