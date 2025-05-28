@@ -22,7 +22,7 @@
             </div>
             <div class="col-lg-4 offset-lg-2">
                 <div class="right-image">
-                    <img src={{"template/images/banner-image.jpg"  }} alt="">
+                    <img src={{"template/images/perpus.jpg"  }} alt="">
                     <span class="price">$22</span>
                     <span class="offer">-40%</span>
                 </div>
