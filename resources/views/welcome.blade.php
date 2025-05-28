@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-lg-6 align-self-center">
                 <div class="caption header-text">
-                    <h6>Welcome Bibliora & Co</h6>
+                    <h6>Welcome In</h6>
                     <h2>LIBRARY!</h2>
                     <p>Selamat datang di Perpustakaan Online kami — pusat referensi digital yang dirancang untuk memudahkan Anda dalam mencari, membaca, dan meminjam berbagai koleksi buku secara praktis. Dengan sistem yang cepat dan user-friendly, kami hadir untuk mendukung kebutuhan literasi Anda di era digital.
                      Jelajahi ribuan judul buku, kelola peminjaman dengan mudah, dan nikmati kemudahan belajar di mana saja, kapan saja.</p>
