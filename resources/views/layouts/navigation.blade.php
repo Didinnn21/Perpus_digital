@@ -15,6 +15,26 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
+                    @role('member')
+                        <x-nav-link :href="route('my-books')" :active="request()->routeIs('my-books')">
+                            {{ __('My Books') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('history')" :active="request('history')">
+                            {{ __('History') }}
+                        </x-nav-link>
+                    @endrole
+
+                    @role('member')
+                        <x-nav-link :href="route('books.index')" :active="request()->routeIs('books*')">
+                            {{ __('Books') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('loans.index')" :active="request('loans.*')">
+                            {{ __('History') }}
+                        </x-nav-link>
+                    @endrole
+
+
                 </div>
             </div>
 

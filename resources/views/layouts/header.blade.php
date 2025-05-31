@@ -10,7 +10,7 @@
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
-                        <li><a href="index.html" class="active">Home</a></li>
+                        <li><a href="{{ route('home') }}" class="active">Home</a></li>
                         <li><a href="shop.html">Daftar Buku</a></li>
                         <li><a href="product-details.html">Peminjaman Buku</a></li>
                         <li><a href="contact.html">Contact Us</a></li>
