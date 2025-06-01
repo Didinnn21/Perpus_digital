@@ -1,4 +1,4 @@
-@extends("layouts.app")
+@extends("layouts.header")
 
 @section('conten')
 <div class="container mt-5">
