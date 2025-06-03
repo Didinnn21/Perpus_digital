@@ -3,7 +3,7 @@
 @section('conten')
     <div class="container mt-5">
         <h2>Tambah Buku Baru</h2>
-        
+
         {{-- Sukses --}}
         @if (session('success'))
             <div>
@@ -17,8 +17,8 @@
             <div class="alert alert-danger">
                 <strong>Terjadi Kesalahan Input:</strong>
                 <ul>
-                    @foreach ( @errors->all() as $error)
-                    <li>{{$error}}</li>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
                     @endforeach
                 </ul>
             </div>
