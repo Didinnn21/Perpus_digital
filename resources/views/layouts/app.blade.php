@@ -13,27 +13,36 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <title>Perpustakaan Online</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href={{ asset('template/vendor/bootstrap/css/bootstrap.min.css') }} rel="stylesheet">
+
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href={{ asset("template/css/fontawesome.css") }}>
+    <link rel="stylesheet" href={{ asset("template/css/templatemo-lugx-gaming.css") }}>
+    <link rel="stylesheet" href={{ asset("template/css/animate.css") }}>
+    <link rel="stylesheet" href={{ asset("template/css/owl.css") }}>
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
 
             {{-- Include header/navigation --}}
             @include('layouts.header')
-
-            {{-- Optional Page Heading --}}
-            @if (isset($header))
-                <header class="bg-white dark:bg-gray-800 shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endif
-
+            <div class="container">
             {{-- Main Content --}}
             <main>
                  @yield('content')
             </main>
-
+            </div>
+            
             {{-- Include footer --}}
             @include('layouts.footer')
 
