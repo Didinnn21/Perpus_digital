@@ -42,6 +42,10 @@
             <x-primary-button class="ms-3">
                 {{ __('Log in') }}
             </x-primary-button>
+
         </div>
     </form>
+
+    <p class="mt-4 text-center-sm text-gray-600  dark:text-gray-400">
+        Belum punya akun? <a href="{{ route('register') }}" class="underline hover:text-indigo-600">Daftar di sini</a></p>
 </x-guest-layout>

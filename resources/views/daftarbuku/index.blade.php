@@ -17,6 +17,7 @@
                                 onkeypress="handle" />
                             <button role="button">Search Now</button>
                         </form>
+                        <a href="{{ route('bukus.create') }}">+ Tambah Buku</a>
                     </div>
                 </div>
             </div>
