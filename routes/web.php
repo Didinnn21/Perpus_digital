@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DaftarbukuController;
+use App\Http\Controllers\PeminjamanbukuController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,7 +30,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/daftar_buku', [DaftarbukuController::class, 'index'])->name('daftar.buku');
-
+Route::get('/peminjaman_buku',[PeminjamanbukuController::class, 'index'])->name('peminjaman.buku');
 
 
 
