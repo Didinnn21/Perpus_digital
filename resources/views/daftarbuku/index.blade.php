@@ -10,8 +10,7 @@
                 <div class="caption header-text">
                     <h6>Welcome In</h6>
                     <h2>LIBRARY!</h2>
-                    <p>Selamat datang di Perpustakaan Online kami — pusat referensi digital yang dirancang untuk memudahkan Anda dalam mencari, membaca, dan meminjam berbagai koleksi buku secara praktis. Dengan sistem yang cepat dan user-friendly, kami hadir untuk mendukung kebutuhan literasi Anda di era digital.
-                     Jelajahi ribuan judul buku, kelola peminjaman dengan mudah, dan nikmati kemudahan belajar di mana saja, kapan saja.</p>
+                    <p>Daftar Buku</p>
                     <div class="search-input">
                         <form id="search" action="#">
                             <input type="text" placeholder="Type Something" id='searchText' name="searchKeyword"
