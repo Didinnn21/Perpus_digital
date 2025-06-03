@@ -9,7 +9,7 @@ class DaftarbukuController extends Controller
 {
     public function index()
     {
-        $bukus =Buku::all();
+        $bukus = Buku::all();
         return view('daftarbuku.index', compact('bukus'));
     }
      public function create()
