@@ -13,7 +13,6 @@
     <!-- Bootstrap core CSS -->
     <link href={{ asset('template/vendor/bootstrap/css/bootstrap.min.css') }} rel="stylesheet">
 
-
     <!-- Additional CSS Files -->
     <link rel="stylesheet" href={{ asset("template/css/fontawesome.css") }}>
     <link rel="stylesheet" href={{ asset("template/css/templatemo-lugx-gaming.css") }}>
@@ -21,14 +20,6 @@
     <link rel="stylesheet" href={{ asset("template/css/owl.css") }}>
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
 
-
-    <!--
-
-TemplateMo 589 lugx gaming
-
-https://templatemo.com/tm-589-lugx-gaming
-
--->
 </head>
 
 <body>
@@ -49,61 +40,55 @@ https://templatemo.com/tm-589-lugx-gaming
     <!-- ***** Header Area Start ***** -->
     @include('layouts.header')
     <!-- ***** Header Area End ***** -->
+
     @hasSection('main-banner')
     <div class="main-banner">
         @yield('main-banner')
-
     </div>
-
     @endif
 
     @hasSection('features')
     <div class="features">
         @yield('features')
-
     </div>
-
     @endif
 
     @hasSection('section-trending')
     <div class="section trending">
         @yield('section-trending')
     </div>
-
     @endif
 
     @hasSection('section-most-played')
     <div class="section most-played">
         @yield('section-most-played')
     </div>
-
     @endif
 
     @hasSection('section-categoris')
     <div class="section categories">
         @yield('section-categoris')
-
     </div>
-
     @endif
 
     @hasSection('section-cta')
     <div class="section cta">
         @yield('section-cta')
     </div>
-
     @endif
 
-
-    <!-- ***** Preloader End ***** -->
+    {{-- Tambahkan section content agar halaman lain bisa tampil --}}
+    @hasSection('content')
+    <div class="container py-5">
+        @yield('content')
+    </div>
+    @endif
 
     <!-- ***** footer Area Start ***** -->
     @include('layouts.footer')
     <!-- ***** footer Area End ***** -->
 
-
     <!-- Scripts -->
-    <!-- Bootstrap core JavaScript -->
     <script src={{ asset("template/vendor/jquery/jquery.min.js") }}></script>
     <script src={{ asset("template/vendor/bootstrap/js/bootstrap.min.js") }}></script>
     <script src={{ asset("template/js/isotope.min.js") }}></script>

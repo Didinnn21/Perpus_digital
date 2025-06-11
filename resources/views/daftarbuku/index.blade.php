@@ -3,7 +3,6 @@
 @include('layouts.header')
 
 @section('main-banner')
-
     <div class="container">
         <div class="row">
             <div class="col-lg-6 align-self-center">
@@ -13,72 +12,31 @@
                     <p>Daftar Buku</p>
                     <div class="search-input">
                         <form id="search" action="#">
-                            <input type="text" placeholder="Type Something" id='searchText' name="searchKeyword"
-                                onkeypress="handle" />
+                            <input type="text" placeholder="Type Something" id="searchText" name="searchKeyword" />
                             <button role="button">Search Now</button>
                         </form>
-                        <a href="{{ route('bukus.create') }}">+ Tambah Buku</a>
+                        <a href="{{ route('bukus.create') }}" class="btn btn-primary mt-3">+ Tambah Buku</a>
                     </div>
-                </div>
-            </div>
-            <div class="col-lg-4 offset-lg-2">
-                <div class="right-image">
-                    <img src={{"template/images/perpus.jpg"  }} alt="">
-                    <span class="price"></span>
-                    <span class="offer">-</span>
                 </div>
             </div>
         </div>
     </div>
-
 @endsection
 
 @section('features')
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3 col-md-6">
-                <a href="#">
-                    <div class="item">
-                        <div class="image">
-                            <img src={{"template/images/featured-01.png" }} alt="" style="max-width: 44px;">
-                        </div>
-                        <h4>Free Storage</h4>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <a href="#">
-                    <div class="item">
-                        <div class="image">
-                            <img src={{"template/images/featured-02.png" }} alt="" style="max-width: 44px;">
-                        </div>
-                        <h4>User More</h4>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <a href="#">
-                    <div class="item">
-                        <div class="image">
-                            <img src={{"template/images/featured-03.png" }} alt="" style="max-width: 44px;">
-                        </div>
-                        <h4>Reply Ready</h4>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <a href="#">
-                    <div class="item">
-                        <div class="image">
-                            <img src={{"template/images/featured-04.png"  }} alt="" style="max-width: 44px;">
-                        </div>
-                        <h4>Easy Layout</h4>
-                    </div>
-                </a>
-            </div>
-        </div>
+    <div class="container mt-5 bg-white p-4 rounded shadow-sm">
+        <h3 class="mb-3 text-dark">Daftar Buku</h3>
+
+        @if($bukus->count())
+            <ul class="list-group">
+                @foreach($bukus as $buku)
+                    <li class="list-group-item">
+                        <strong>{{ $buku->judul }}</strong> oleh {{ $buku->penulis }}
+                    </li>
+                @endforeach
+            </ul>
+        @else
+            <p class="text-muted">Tidak ada buku yang tersedia.</p>
+        @endif
     </div>
 @endsection
-
-
-

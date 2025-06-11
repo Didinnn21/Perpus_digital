@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BukuController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -32,12 +33,9 @@ Route::middleware('auth')->group(function () {
 Route::get('/daftar_buku', [DaftarbukuController::class, 'index'])->name('daftar.buku');
 Route::get('/peminjaman_buku',[PeminjamanbukuController::class, 'index'])->name('peminjaman.buku');
 
-Route::get('/bukus/create', [DaftarbukuController::class, 'create'])->name('bukus.create');
-Route::post('/bukus', [DaftarbukuController::class, 'store'])->name('bukus.store');
-Route::get('/daftarbuku',[DaftarbukuController::class, 'index'])->name('bukus.index');
-
-
-
+Route::get('/bukus', [BukuController::class, 'index'])->name('bukus.index');
+Route::get('/bukus/create', [BukuController::class, 'create'])->name('bukus.create');
+Route::post('/bukus', [BukuController::class, 'store'])->name('bukus.store');
 
 
 require __DIR__.'/auth.php';

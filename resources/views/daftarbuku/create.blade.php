@@ -6,14 +6,13 @@
 
         {{-- Sukses --}}
         @if (session('success'))
-            <div>
+            <div class="alert alert-success">
                 {{ session('success') }}
             </div>
-
         @endif
 
         {{-- Error --}}
-        @if($errors->any())
+        @if ($errors->any())
             <div class="alert alert-danger">
                 <strong>Terjadi Kesalahan Input:</strong>
                 <ul>
@@ -46,9 +45,9 @@
                 <label for="tahun_terbit" class="form-label">Tahun Terbit</label>
                 <input type="text" class="form-control" id="tahun_terbit" name="tahun_terbit" value="{{ old('tahun_terbit') }}" required>
             </div>
+
             <button type="submit" class="btn btn-primary">Simpan Buku</button>
             <a href="{{ route('bukus.index') }}" class="btn btn-secondary">Kembali</a>
         </form>
     </div>
-
 @endsection
