@@ -10,6 +10,10 @@
                 <div class="caption header-text">
                     <h6>Welcome In</h6>
                     <h2>LIBRARY!</h2>
+                    @auth
+                        <p>Halo, <strong>{{ Auth::user()->name }}</strong>! Anda login sebagai
+                            <strong>{{ ucfirst(Auth::user()->role) }}</strong>.</p>
+                    @endauth
                     <p>Selamat datang di Perpustakaan Online kami — pusat referensi digital yang dirancang untuk memudahkan Anda dalam mencari, membaca, dan meminjam berbagai koleksi buku secara praktis. Dengan sistem yang cepat dan user-friendly, kami hadir untuk mendukung kebutuhan literasi Anda di era digital.
                      Jelajahi ribuan judul buku, kelola peminjaman dengan mudah, dan nikmati kemudahan belajar di mana saja, kapan saja.</p>
                     <div class="search-input">

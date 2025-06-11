@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DaftarbukuController;
 use App\Http\Controllers\PeminjamanbukuController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PustakawanController;
+use App\Http\Controllers\MemberController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,9 +23,26 @@ use App\Http\Controllers\PeminjamanbukuController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+Route::get('/', function () {
+    return view('home');
+})->name('home');
+
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'index']);
+});
+
+Route::middleware(['auth', 'role:pustakawan'])->group(function () {
+    Route::get('/pustakawan/dashboard', [PustakawanController::class, 'index']);
+});
+
+Route::middleware(['auth', 'role:member'])->group(function () {
+    Route::get('/member/dashboard', [MemberController::class, 'index']);
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
