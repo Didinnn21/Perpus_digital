@@ -41,22 +41,26 @@
                 <table class="table table-bordered">
                     <thead class="thead-dark">
                         <tr>
+                            <th>No</th>
                             <th>ID</th>
                             <th>Judul</th>
                             <th>Penulis</th>
                             <th>Penerbit</th>
                             <th>Tahun Terbit</th>
+                            <th>Kategori</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($bukus as $buku)
+                        @foreach($bukus as $index => $buku)
                             <tr>
-                                <td>{{ $buku->id }}</td>
+                                <td>{{ $loop->iteration }}</td> {{-- Nomor urut --}}
+                                <td>{{ $buku->id }}</td>        {{-- ID asli dari database --}}
                                 <td>{{ $buku->judul }}</td>
                                 <td>{{ $buku->penulis }}</td>
                                 <td>{{ $buku->penerbit }}</td>
                                 <td>{{ $buku->tahun_terbit }}</td>
+                                <td>{{ $buku->kategori }}</td>
                                 <td>
                                     <a href="{{ route('bukus.edit', $buku->id) }}" class="btn btn-sm btn-warning">Edit</a>
 

@@ -6,20 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-   public function up(){
-    //Schema::table('bukus', function (Blueprint $table) {
-        //$table->string('penerbit')->after('penulis');
-        //$table->string('tahun_terbit')->after('penerbit');
-    //});
+   public function up()
+    {
+   // Schema::table('bukus', function (Blueprint $table) {
+        //$table->string('kategori')->after('tahun_terbit');
+   // });
     }
 
-    public function down(){
+    public function down()
+    {
     Schema::table('bukus', function (Blueprint $table) {
-        $table->dropColumn(['penerbit', 'tahun_terbit']);
+        $table->dropColumn('kategori');
     });
-
     }
+
 };

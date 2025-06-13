@@ -63,6 +63,15 @@
                       <small class="text-danger">{{ $message }}</small>
                     @enderror
                   </div>
+
+                  {{-- Kategori --}}
+                  <div class="form-group">
+                    <label for="kategori">Kategori</label>
+                    <input type="text" class="form-control" id="kategori" name="kategori" placeholder="Masukkan kategori buku">
+                    @error('kategori')
+                      <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                  </div>
                 </div>
 
                 <div class="card-footer d-flex justify-content-between">

@@ -23,6 +23,7 @@ class DaftarbukuController extends Controller
             'penulis' => 'required|string|max:255',
             'penerbit' => 'required|string|max:255',
             'tahun_terbit' => 'required|integer|min:1000|max:9000',
+
         ]);
 
         Buku::create([
@@ -30,6 +31,8 @@ class DaftarbukuController extends Controller
             'penulis' => $request->penulis,
             'penerbit' => $request->penerbit,
             'tahun_terbit' => $request->tahun_terbit,
+            
+
         ]);
 
         return redirect()->route('bukus.index')->with('success', 'Buku berhasil ditambahkan');

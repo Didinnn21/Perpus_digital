@@ -11,26 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-    Schema::create('bukus', function (Blueprint $table) {
-       $table->id();
-        $table->string('judul');
-        $table->string('penulis');
-        $table->string('penerbit');
-        $table->string('tahun_terbit'); // yang benar
-        $table->timestamps();
-
-    });
-}
-
-
-
+        Schema::create('bukus', function (Blueprint $table) {
+            $table->id();
+            $table->string('judul');
+            $table->string('penulis');
+            $table->string('penerbit');
+            $table->string('tahun_terbit');
+            $table->string('kategori'); // ✅ Kolom kategori
+            $table->timestamps();
+        });
+    }
 
     /**
      * Reverse the migrations.
      */
-    //public function down(): void
-    //{
-        //Schema::dropIfExists('bukus');
-    //}
-//};
+    public function down(): void
+    {
+        Schema::dropIfExists('bukus');
+    }
 };

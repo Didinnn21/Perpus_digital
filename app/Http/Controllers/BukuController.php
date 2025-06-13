@@ -33,6 +33,7 @@ class BukuController extends Controller
             'penulis' => 'required|string|max:255',
             'penerbit' => 'required|string|max:255',
             'tahun_terbit' => 'required|digits:4|integer|min:1900|max:' . date('Y'),
+            'kategori' => 'required|string|max:255',
         ]);
 
         Buku::create($validatedData);
@@ -52,6 +53,7 @@ class BukuController extends Controller
         'penulis' => 'required|string|max:255',
         'penerbit' => 'required|string|max:255',
         'tahun_terbit' => 'required|digits:4|integer|min:1900|max:' . date('Y'),
+        'kategori' => 'required|string|max:255',
     ]);
 
     $buku->update($validatedData);

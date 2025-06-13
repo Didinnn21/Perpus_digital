@@ -50,6 +50,12 @@
                 </div>
 
                 <div class="form-group">
+                  <label for="penerbit">Kategori</label>
+                  <input type="text" class="form-control" id="kategori" name="kategori" value="{{ old('kategori', $buku->kategori) }}" required>
+                  @error('kategori') <small class="text-danger">{{ $message }}</small> @enderror
+                </div>
+
+                <div class="form-group">
                   <label for="tahun_terbit">Tahun Terbit</label>
                   <input type="number" class="form-control" id="tahun_terbit" name="tahun_terbit" value="{{ old('tahun_terbit', $buku->tahun_terbit) }}" required>
                   @error('tahun_terbit') <small class="text-danger">{{ $message }}</small> @enderror
