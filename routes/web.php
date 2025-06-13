@@ -53,9 +53,17 @@ Route::middleware('auth')->group(function () {
 Route::get('/daftar_buku', [DaftarbukuController::class, 'index'])->name('daftar.buku');
 Route::get('/peminjaman_buku',[PeminjamanbukuController::class, 'index'])->name('peminjaman.buku');
 
+
 Route::get('/bukus', [BukuController::class, 'index'])->name('bukus.index');
+
+// Form untuk tambah buku
 Route::get('/bukus/create', [BukuController::class, 'create'])->name('bukus.create');
+
+// Menyimpan buku baru
 Route::post('/bukus', [BukuController::class, 'store'])->name('bukus.store');
+Route::get('/bukus/{buku}/edit', [BukuController::class, 'edit'])->name('bukus.edit');
+Route::put('/bukus/{buku}', [BukuController::class, 'update'])->name('bukus.update');
+Route::delete('/bukus/{id}', [BukuController::class, 'destroy'])->name('bukus.destroy');
 
 
 require __DIR__.'/auth.php';

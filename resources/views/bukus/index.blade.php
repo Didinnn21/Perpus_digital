@@ -11,9 +11,9 @@
                     <h2>LIBRARY!</h2>
                     <p>Daftar Buku</p>
                     <div class="search-input">
-                        <form id="search" action="#">
-                            <input type="text" placeholder="Type Something" id="searchText" name="searchKeyword" />
-                            <button role="button">Search Now</button>
+                        <form id="search" action="{{ route('bukus.index') }}" method="GET">
+                            <input type="text" placeholder="Type Something" id="searchText" name="search" value="{{ request('search') }}" />
+                            <button type="submit">Search Now</button>
                         </form>
                     </div>
                 </div>
@@ -41,19 +41,31 @@
                 <table class="table table-bordered">
                     <thead class="thead-dark">
                         <tr>
+                            <th>ID</th>
                             <th>Judul</th>
                             <th>Penulis</th>
                             <th>Penerbit</th>
                             <th>Tahun Terbit</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($bukus as $buku)
                             <tr>
+                                <td>{{ $buku->id }}</td>
                                 <td>{{ $buku->judul }}</td>
                                 <td>{{ $buku->penulis }}</td>
                                 <td>{{ $buku->penerbit }}</td>
                                 <td>{{ $buku->tahun_terbit }}</td>
+                                <td>
+                                    <a href="{{ route('bukus.edit', $buku->id) }}" class="btn btn-sm btn-warning">Edit</a>
+
+                                    <form action="{{ route('bukus.destroy', $buku->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus buku ini?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                                    </form>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

@@ -7,9 +7,17 @@ use Illuminate\Http\Request;
 
 class BukuController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $bukus = Buku::all();
+        $search = $request->input('search');
+
+        $bukus = Buku::query()
+            ->when($search, function ($query, $search) {
+                $query->where('judul', 'like', '%' . $search . '%')
+                      ->orWhere('penulis', 'like', '%' . $search . '%');
+            })
+            ->get();
+
         return view('bukus.index', compact('bukus'));
     }
 
@@ -30,5 +38,32 @@ class BukuController extends Controller
         Buku::create($validatedData);
 
         return redirect()->route('bukus.index')->with('success', 'Buku berhasil ditambahkan.');
+    }
+
+    public function edit(Buku $buku)
+    {
+    return view('bukus.edit', compact('buku'));
+    }
+
+    public function update(Request $request, Buku $buku)
+{
+    $validatedData = $request->validate([
+        'judul' => 'required|string|max:255',
+        'penulis' => 'required|string|max:255',
+        'penerbit' => 'required|string|max:255',
+        'tahun_terbit' => 'required|digits:4|integer|min:1900|max:' . date('Y'),
+    ]);
+
+    $buku->update($validatedData);
+
+    return redirect()->route('bukus.index')->with('success', 'Buku berhasil diperbarui.');
+    }
+
+    public function destroy($id)
+    {
+    $buku = Buku::findOrFail($id);
+    $buku->delete();
+
+    return redirect()->route('bukus.index')->with('success', 'Buku berhasil dihapus.');
     }
 }

@@ -12,7 +12,7 @@
                     <ul class="nav">
                         <li><a href="{{ route('home') }}" class="active">Home</a></li>
                         <li><a href="{{ route('bukus.index') }}">Daftar Buku</a></li>
-                        <li><a href="{{ route('peminjaman.buku') }}">Peminjaman Buku</a></li>
+                        <li><a href="{{ route('peminjaman.buku') }}">Tambah Anggota</a></li>
                         <li><a href="{{ route('login') }}">Sign In</a></li>
                     </ul>
                     <a class="menu-trigger">
