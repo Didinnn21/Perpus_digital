@@ -24,13 +24,6 @@
 
 @section('features')
     {{-- Tombol Tambah Buku --}}
-    <div class="container mt-4 mb-2">
-        <a href="{{ route('bukus.create') }}"
-           class="btn"
-           style="background-color: green; color: white; border: 2px solid green;">
-            + Tambah Buku
-        </a>
-    </div>
 
     {{-- Kotak daftar buku --}}
     <div class="container bg-white p-4 rounded shadow-sm">
@@ -78,5 +71,12 @@
         @else
             <p class="text-muted">Tidak ada buku yang tersedia.</p>
         @endif
+    </div>
+    <div class="container mt-4 mb-2">
+        <a href="{{ route('bukus.create') }}"
+           class="btn"
+           style="background-color: blue; color: white; border: 2px solid green;">
+            + Tambah Buku
+        </a>
     </div>
 @endsection

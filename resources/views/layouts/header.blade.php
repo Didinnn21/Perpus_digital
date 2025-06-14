@@ -13,7 +13,7 @@
                         <li><a href="{{ route('home') }}" class="active">Home</a></li>
                         <li><a href="{{ route('bukus.index') }}">Daftar Buku</a></li>
                         <li><a href="{{ route('members.index') }}">Tambah Anggota</a></li>
-                        <li><a href="{{ route('login') }}">Sign In</a></li>
+                        <li><a href="{{ route('login') }}">Log In</a></li>
                     </ul>
                     <a class="menu-trigger">
                         <span>Menu</span>

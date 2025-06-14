@@ -26,13 +26,7 @@
 
 @section('features')
 {{-- Tombol Tambah Member --}}
-<div class="container mt-4 mb-2">
-    <a href="{{ route('members.create') }}"
-       class="btn"
-       style="background-color: green; color: white; border: 2px solid green;">
-        + Tambah Member
-    </a>
-</div>
+
 
 {{-- Daftar Member --}}
 <div class="container bg-white p-4 rounded shadow-sm">
@@ -87,5 +81,12 @@
             @endif
         </div>
     @endif
+</div>
+<div class="container mt-4 mb-2">
+    <a href="{{ route('members.create') }}"
+       class="btn"
+       style="background-color: blue; color: white; border: 2px solid green;">
+        + Tambah Member
+    </a>
 </div>
 @endsection
