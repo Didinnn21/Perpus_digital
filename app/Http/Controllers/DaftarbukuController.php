@@ -31,10 +31,10 @@ class DaftarbukuController extends Controller
             'penulis' => $request->penulis,
             'penerbit' => $request->penerbit,
             'tahun_terbit' => $request->tahun_terbit,
-            
+
 
         ]);
 
-        return redirect()->route('bukus.index')->with('success', 'Buku berhasil ditambahkan');
+        return redirect()->route('admin.bukus.index')->with('success', 'Buku berhasil ditambahkan');
     }
 }

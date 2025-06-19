@@ -11,7 +11,7 @@
                     <h2>LIBRARY!</h2>
                     <p>Daftar Buku</p>
                     <div class="search-input">
-                        <form id="search" action="{{ route('bukus.index') }}" method="GET">
+                        <form id="search" action="{{ route('admin.bukus.index') }}" method="GET">
                             <input type="text" placeholder="Type Something" id="searchText" name="search" value="{{ request('search') }}" />
                             <button type="submit">Search Now</button>
                         </form>
@@ -55,9 +55,9 @@
                                 <td>{{ $buku->tahun_terbit }}</td>
                                 <td>{{ $buku->kategori }}</td>
                                 <td>
-                                    <a href="{{ route('bukus.edit', $buku->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                                    <a href="{{ route('admin.bukus.edit', $buku->id) }}" class="btn btn-sm btn-warning">Edit</a>
 
-                                    <form action="{{ route('bukus.destroy', $buku->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus buku ini?')">
+                                    <form action="{{ route('admin.bukus.destroy', $buku->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus buku ini?')">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
@@ -73,7 +73,7 @@
         @endif
     </div>
     <div class="container mt-4 mb-2">
-        <a href="{{ route('bukus.create') }}"
+        <a href="{{ route('admin.bukus.create') }}"
            class="btn"
            style="background-color: blue; color: white; border: 2px solid green;">
             + Tambah Buku

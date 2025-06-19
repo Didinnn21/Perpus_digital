@@ -40,6 +40,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'member' => [ // tambahkan ini
+        'driver' => 'session',
+        'provider' => 'members',
+    ],
     ],
 
     /*
@@ -65,6 +70,10 @@ return [
             'model' => App\Models\User::class,
         ],
 
+        'members' => [ // tambahkan ini
+        'driver' => 'eloquent',
+        'model' => App\Models\Member::class,
+    ],
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',

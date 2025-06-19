@@ -22,7 +22,7 @@
       <div class="container-fluid">
         <h4 class="mb-4 text-center">Tambah Data Buku</h4>
 
-        <form action="{{ route('bukus.store') }}" method="POST">
+        <form action="{{ route('admin.bukus.store') }}" method="POST">
           @csrf
           <div class="row">
             <div class="col-md-8 offset-md-2">
@@ -75,7 +75,7 @@
                 </div>
 
                 <div class="card-footer d-flex justify-content-between">
-                  <a href="{{ route('bukus.index') }}" class="btn btn-secondary">Kembali</a>
+                  <a href="{{ route('admin.bukus.index') }}" class="btn btn-secondary">Kembali</a>
                   <button type="submit" class="btn" style="background-color: green; color: white;">Simpan</button>
                 </div>
 

@@ -15,7 +15,7 @@
                             <input type="text" placeholder="Type Something" id="searchText" name="searchKeyword" />
                             <button role="button">Search Now</button>
                         </form>
-                        <a href="{{ route('bukus.create') }}" class="btn btn-primary mt-3">+ Tambah Buku</a>
+                        <a href="{{ route('admin.bukus.create') }}" class="btn btn-primary mt-3">+ Tambah Buku</a>
                     </div>
                 </div>
             </div>

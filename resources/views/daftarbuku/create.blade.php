@@ -23,7 +23,7 @@
             </div>
         @endif
 
-        <form action="{{ route('bukus.store') }}" method="POST">
+        <form action="{{ route('admin.bukus.store') }}" method="POST">
             @csrf
 
             <div class="mb-3">
@@ -47,7 +47,7 @@
             </div>
 
             <button type="submit" class="btn btn-primary">Simpan Buku</button>
-            <a href="{{ route('bukus.index') }}" class="btn btn-secondary">Kembali</a>
+            <a href="{{ route('admin.bukus.index') }}" class="btn btn-secondary">Kembali</a>
         </form>
     </div>
 @endsection

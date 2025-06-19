@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Hash;
 
 class MemberController extends Controller
 {
+
+    public function dashboard()
+    {
+    return view('members.dashboard');
+    }
     // Menampilkan daftar semua member
     public function index(Request $request)
     {
@@ -46,7 +51,7 @@ class MemberController extends Controller
             'password' => Hash::make($validatedData['password']),
         ]);
 
-        return redirect()->route('members.index')->with('success', 'Member berhasil ditambahkan.');
+        return redirect()->route('admin.members.index')->with('success', 'Member berhasil ditambahkan.');
     }
 
     // Menampilkan form edit
@@ -81,7 +86,7 @@ class MemberController extends Controller
 
         $member->save();
 
-        return redirect()->route('members.index')->with('success', 'Member berhasil diperbarui.');
+        return redirect()->route('admin.members.index')->with('success', 'Member berhasil diperbarui.');
     }
 
     // Menghapus data member
@@ -90,6 +95,6 @@ class MemberController extends Controller
         $member = Member::findOrFail($id);
         $member->delete();
 
-        return redirect()->route('members.index')->with('success', 'Member berhasil dihapus.');
+        return redirect()->route('admin.members.index')->with('success', 'Member berhasil dihapus.');
     }
 }

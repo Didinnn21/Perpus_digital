@@ -13,7 +13,7 @@
 
                 {{-- Search Form --}}
                 <div class="search-input">
-                    <form id="search" action="{{ route('members.index') }}" method="GET">
+                    <form id="search" action="{{ route('admin.members.index') }}" method="GET">
                         <input type="text" placeholder="Cari nama atau email" id="searchText" name="search" value="{{ request('search') }}" />
                         <button type="submit">Search Now</button>
                     </form>
@@ -60,8 +60,8 @@
                             <td>{{ $member->nomer_telepon }}</td>
                             <td>{{ $member->email }}</td>
                             <td>
-                                <a href="{{ route('members.edit', $member->id) }}" class="btn btn-sm btn-warning">Edit</a>
-                                <form action="{{ route('members.destroy', $member->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus member ini?')">
+                                <a href="{{ route('admin.members.edit', $member->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                                <form action="{{ route('admin.members.destroy', $member->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus member ini?')">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
@@ -83,7 +83,7 @@
     @endif
 </div>
 <div class="container mt-4 mb-2">
-    <a href="{{ route('members.create') }}"
+    <a href="{{ route('admin.members.create') }}"
        class="btn"
        style="background-color: blue; color: white; border: 2px solid green;">
         + Tambah Member

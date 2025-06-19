@@ -21,7 +21,7 @@
     <div class="container-fluid">
       <h4 class="mb-4 text-center">Edit Data Buku</h4>
 
-      <form action="{{ route('bukus.update', $buku->id) }}" method="POST">
+      <form action="{{ route('admin.bukus.update', $buku->id) }}" method="POST">
         @csrf
         @method('PUT')
         <div class="row">
@@ -63,7 +63,7 @@
               </div>
 
               <div class="card-footer d-flex justify-content-between">
-                <a href="{{ route('bukus.index') }}" class="btn btn-secondary">Kembali</a>
+                <a href="{{ route('admin.bukus.index') }}" class="btn btn-secondary">Kembali</a>
                 <button type="submit" class="btn" style="background-color: green; color: white;">Update</button>
               </div>
             </div>

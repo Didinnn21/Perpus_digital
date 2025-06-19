@@ -8,13 +8,30 @@
                         <img src="{{ asset('template/images/logo.png') }}" alt="Logo" style="width: 158px;">
                     </a>
                     <!-- ***** Logo End ***** -->
+
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
                         <li><a href="{{ route('home') }}" class="active">Home</a></li>
-                        <li><a href="{{ route('bukus.index') }}">Daftar Buku</a></li>
-                        <li><a href="{{ route('members.index') }}">Tambah Anggota</a></li>
-                        <li><a href="{{ route('login') }}">Log In</a></li>
+                        <li><a href="{{ route('admin.bukus.index') }}">Daftar Buku</a></li>
+                        <li><a href="{{ route('admin.members.index') }}">Tambah Anggota</a></li>
+
+                       @auth
+                        <li>
+                            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                Log out
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                        </li>
+                         @endauth
                     </ul>
+
+                    <!-- Logout form (shared by both admin & member) -->
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+
                     <a class="menu-trigger">
                         <span>Menu</span>
                     </a>
