@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@include('layouts.header')
+
 
 @section('main-banner')
 <div class="container">
