@@ -30,18 +30,16 @@ class LoginController extends Controller
         $request->session()->regenerate();
 
         $user = Auth::guard('member')->user();
-
-    if ($user->hasRole('admin')) {
-        return redirect()->route('admin.dashboard');
-    } elseif ($user->hasRole('member')) {
-        return redirect()->route('member.dashboard');
+        if ($user->hasRole('admin')) {
+            return redirect()->route('admin.dashboard');
+        } elseif ($user->hasRole('member')) {
+            return redirect()->route('member.dashboard');
+        } else {
+            return redirect()->route('login')->with('failed', 'Role tidak dikenali');
+        }
     } else {
-        return redirect()->route('login')->with('failed', 'Role tidak dikenali');
+        return redirect()->route('login')->with('failed', 'Email atau password salah');
     }
-} else {
-    return redirect()->route('login')->with('failed', 'Email atau password salah');
-}
-
 }
 
    public function logout(Request $request)

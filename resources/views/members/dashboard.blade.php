@@ -14,7 +14,7 @@
                         <p>Halo, <strong>{{ Auth::user()->name }}</strong>! Anda login sebagai
                             <strong>{{ ucfirst(Auth::user()->role) }}</strong>.</p>
                     @endauth
-                    <p>Selamat Member</p>
+                    <p>Selamat admin</p>
                     <div class="search-input">
                         <form id="search" action="#">
                             <input type="text" placeholder="Type Something" id='searchText' name="searchKeyword"

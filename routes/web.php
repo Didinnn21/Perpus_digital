@@ -10,6 +10,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PustakawanController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\Auth\LoginController;
+use Illuminate\Support\Facades\Auth;
 
 
 /*
@@ -53,15 +54,23 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:member'], 'as' => 'adm
 
 });
 
-Route::middleware(['auth', 'role:member'])->group(function () {
+Route::middleware(['auth:member', 'role.member:member'])->group(function () {
     Route::get('/member/dashboard', [MemberController::class, 'dashboard'])->name('member.dashboard');
 });
 
 Route::get('/home', function () {
-    return view('home');
-})->name('home');
+    $user = Auth::guard('member')->user();
 
+    if ($user) {
+        if ($user->hasRole('admin')) {
+            return redirect()->route('admin.dashboard');
+        } elseif ($user->hasRole('member')) {
+            return redirect()->route('member.dashboard');
+        }
+    }
 
+    return redirect()->route('login')->with('failed', 'Role tidak dikenali atau belum login.');
+})->middleware('auth:member')->name('home');
 
 
 //Route::middleware(['auth', 'role:admin'])->group(function () {
