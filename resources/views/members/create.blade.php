@@ -71,6 +71,19 @@
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="role">Pilih Role</label>
+                                    <select name="role" class="form-control" required>
+                                        <option value="">-- Pilih Role --</option>
+                                        <option value="admin">Admin</option>
+                                        <option value="member">Member</option>
+                                        <option value="guest">Guest</option>
+                                    </select>
+                                    @error('role')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
                             </div>
 
                             <div class="card-footer d-flex justify-content-between">

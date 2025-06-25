@@ -46,12 +46,12 @@ class PermissionSeeder extends Seeder
         $role_member->givePermissionTo($permission2);
 
         // Ambil member id ke-6
-        $member = Member::find(6);
+       // $member = Member::find(6);
 
-        if ($member) {
-            $member->assignRole('admin'); // guard member
-        } else {
-            echo "Member dengan ID 6 tidak ditemukan.\n";
-        }
+      // if ($member) {
+         //   $member->assignRole('admin'); // guard member
+      //  } else {
+       //     echo "Member dengan ID 6 tidak ditemukan.\n";
+        //}
     }
 }

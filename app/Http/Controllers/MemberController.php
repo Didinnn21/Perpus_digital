@@ -5,31 +5,34 @@ namespace App\Http\Controllers;
 use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
+use Spatie\Permission\Models\Role;
 
 class MemberController extends Controller
 {
-
     public function dashboard()
     {
-    return view('members.dashboard');
+        return view('members.dashboard');
     }
+
     // Menampilkan daftar semua member
     public function index(Request $request)
     {
         $search = $request->input('search');
 
-    $members = Member::when($search, function ($query, $search) {
-        return $query->where('nama', 'like', "%{$search}%")
-                     ->orWhere('email', 'like', "%{$search}%");
-    })->get();
+        $members = Member::when($search, function ($query, $search) {
+            return $query->where('nama', 'like', "%{$search}%")
+                         ->orWhere('email', 'like', "%{$search}%");
+        })->get();
 
-    return view('members.index', compact('members'));
+        return view('members.index', compact('members'));
     }
 
     // Menampilkan form untuk menambah member baru
     public function create()
     {
-        return view('members.create');
+        $roles = Role::where('guard_name', 'member')->pluck('name');
+        return view('members.create', compact('roles'));
     }
 
     // Menyimpan data member baru ke database
@@ -41,15 +44,18 @@ class MemberController extends Controller
             'nomer_telepon' => 'required|string|max:20',
             'email' => 'required|email|unique:members,email',
             'password' => 'required|string|min:6',
+            'role' => ['required', Rule::in(['admin', 'member', 'guest'])],
         ]);
 
-        Member::create([
+        $member = Member::create([
             'nama' => $validatedData['nama'],
             'alamat' => $validatedData['alamat'],
             'nomer_telepon' => $validatedData['nomer_telepon'],
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
         ]);
+
+        $member->assignRole($validatedData['role']);
 
         return redirect()->route('admin.members.index')->with('success', 'Member berhasil ditambahkan.');
     }
@@ -79,7 +85,6 @@ class MemberController extends Controller
         $member->nomer_telepon = $validatedData['nomer_telepon'];
         $member->email = $validatedData['email'];
 
-        // Jika password tidak kosong, update password
         if (!empty($validatedData['password'])) {
             $member->password = Hash::make($validatedData['password']);
         }
