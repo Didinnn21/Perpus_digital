@@ -85,6 +85,7 @@
                 <a href="{{ route('member.dashboard') }}">Beranda</a>
                 <a href="{{ route('peminjamanbuku.index') }}">Peminjaman Buku</a>
                 <a href="{{ route('pengembalianbuku.index') }}">Pengembalian Buku</a>
+                <a href="{{ route('riwayat.peminjaman') }}">Riwayat</a>
             @endif
         </div>
 

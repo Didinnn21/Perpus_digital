@@ -10,6 +10,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PustakawanController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\RiwayatController;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -64,6 +65,8 @@ Route::middleware(['auth:member', 'role.member:member'])->group(function () {
     Route::get('/pengembalianbuku', [PeminjamanbukuController::class, 'pengembalianIndex'])->name('pengembalianbuku.index');
     Route::get('/pengembalianbuku/{id}/form', [PeminjamanbukuController::class, 'formPengembalian'])->name('pengembalianbuku.form');
     Route::post('/pengembalianbuku/{id}/kembalikan', [PeminjamanbukuController::class, 'kembalikan'])->name('pengembalianbuku.kembalikan');
+
+    Route::get('/riwayat-peminjaman', [RiwayatController::class, 'index'])->name('riwayat.peminjaman');
 
 });
 
