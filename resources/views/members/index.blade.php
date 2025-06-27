@@ -1,7 +1,5 @@
 @extends('layouts.main')
 
-
-
 @section('main-banner')
 <div class="container">
     <div class="row">
@@ -10,14 +8,6 @@
                 <h6>Welcome In</h6>
                 <h2>LIBRARY!</h2>
                 <p>Daftar Member</p>
-
-                {{-- Search Form --}}
-                <div class="search-input">
-                    <form id="search" action="{{ route('admin.members.index') }}" method="GET">
-                        <input type="text" placeholder="Cari nama atau email" id="searchText" name="search" value="{{ request('search') }}" />
-                        <button type="submit">Search Now</button>
-                    </form>
-                </div>
             </div>
         </div>
     </div>
@@ -25,21 +15,35 @@
 @endsection
 
 @section('features')
-{{-- Tombol Tambah Member --}}
-
-
-{{-- Daftar Member --}}
 <div class="container bg-white p-4 rounded shadow-sm">
     <h3 class="mb-3 text-dark">Daftar Member</h3>
 
-    @if(request('search'))
-        <p class="text-muted">Hasil pencarian untuk: <strong>{{ request('search') }}</strong></p>
-    @endif
+    <!-- FORM FILTER & SEARCH -->
+    <form action="{{ route('admin.members.index') }}" method="GET" class="row mb-4 g-2">
+        <div class="col-md-4">
+            <input type="text" name="search" class="form-control" placeholder="Cari nama atau email" value="{{ request('search') }}">
+        </div>
+        <div class="col-md-3">
+            <select name="sort" class="form-select">
+                <option value="">Urutkan Nama</option>
+                <option value="asc" {{ request('sort') == 'asc' ? 'selected' : '' }}>A - Z</option>
+                <option value="desc" {{ request('sort') == 'desc' ? 'selected' : '' }}>Z - A</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">Terapkan</button>
+        </div>
+        <div class="col-md-3">
+            @if(request('search') || request('sort'))
+                <a href="{{ route('admin.members.index') }}" class="btn btn-secondary w-100">Reset Filter</a>
+            @endif
+        </div>
+    </form>
 
     @if($members->count())
         <div class="table-responsive">
-            <table class="table table-bordered">
-                <thead class="thead-dark">
+            <table class="table table-bordered table-striped">
+                <thead class="table-dark">
                     <tr>
                         <th>No</th>
                         <th>ID</th>
@@ -51,7 +55,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($members as $index => $member)
+                    @foreach($members as $member)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $member->id }}</td>
@@ -82,6 +86,8 @@
         </div>
     @endif
 </div>
+
+<!-- Tombol Tambah Member -->
 <div class="container mt-4 mb-2">
     <a href="{{ route('admin.members.create') }}"
        class="btn"

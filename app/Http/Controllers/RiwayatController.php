@@ -9,16 +9,23 @@ use Illuminate\Support\Facades\Auth;
 
 class RiwayatController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->input('search');
+        $sort = $request->input('sort', 'desc'); // default: terbaru
+
         // Ambil member yang sedang login
         $member = Member::where('email', Auth::user()->email)->first();
 
-        // Ambil data riwayat peminjaman (yang sudah dikembalikan)
+        // Ambil data riwayat peminjaman
         $riwayats = Peminjaman::with('buku')
             ->where('member_id', $member->id)
-            ->whereNotNull('tanggal_pengembalian')
-            ->orderByDesc('tanggal_pengembalian')
+            ->when($search, function ($query, $search) {
+                $query->whereHas('buku', function ($q) use ($search) {
+                    $q->where('judul', 'like', '%' . $search . '%');
+                });
+            })
+            ->orderBy('tanggal_pinjam', $sort)
             ->get();
 
         return view('riwayat.index', compact('riwayats'));

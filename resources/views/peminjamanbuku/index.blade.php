@@ -7,14 +7,7 @@
             <div class="caption header-text">
                 <h6>Welcome In</h6>
                 <h2>LIBRARY!</h2>
-                <p>Daftar Peminjaman Buku</p>
-
-                <div class="search-input">
-                    <form id="search" action="{{ route('peminjamanbuku.index') }}" method="GET">
-                        <input type="text" placeholder="Cari berdasarkan judul" id="searchText" name="search" value="{{ request('search') }}" />
-                        <button type="submit">Search Now</button>
-                    </form>
-                </div>
+                <p>Daftar Buku yang Tersedia untuk Dipinjam</p>
             </div>
         </div>
     </div>
@@ -23,21 +16,47 @@
 
 @section('features')
 <div class="container bg-white p-4 rounded shadow-sm">
-    <h3 class="mb-3 text-dark">Daftar Buku untuk Dipinjam</h3>
+    <h3 class="mb-3 text-dark">Daftar Buku</h3>
 
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
+    <!-- Filter & Search -->
+    <form action="{{ route('peminjamanbuku.index') }}" method="GET" class="row mb-3 g-2">
+        <div class="col-md-4">
+            <input type="text" name="search" class="form-control" placeholder="Cari judul, penulis, tahun..." value="{{ request('search') }}">
+        </div>
+        <div class="col-md-3">
+            <select name="sort" class="form-select">
+                <option value="">Urutkan Judul</option>
+                <option value="asc" {{ request('sort') == 'asc' ? 'selected' : '' }}>A - Z</option>
+                <option value="desc" {{ request('sort') == 'desc' ? 'selected' : '' }}>Z - A</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">Terapkan</button>
+        </div>
+        <div class="col-md-3">
+            @if(request('search') || request('sort'))
+                <a href="{{ route('peminjamanbuku.index') }}" class="btn btn-secondary w-100">Reset Filter</a>
+            @endif
+        </div>
+    </form>
+
+    <!-- Tabel Buku -->
     @if($bukus->count())
         <div class="table-responsive">
-            <table class="table table-bordered">
-                <thead class="thead-dark">
+            <table class="table table-bordered table-striped">
+                <thead class="table-dark">
                     <tr>
                         <th>No</th>
                         <th>ID Buku</th>
                         <th>Judul</th>
                         <th>Penulis</th>
+                        <th>Penerbit</th>
+                        <th>Tahun</th>
+                        <th>Kategori</th>
                         <th>Status</th>
                         <th>Aksi</th>
                     </tr>
@@ -49,20 +68,19 @@
                             <td>{{ $buku->id }}</td>
                             <td>{{ $buku->judul }}</td>
                             <td>{{ $buku->penulis }}</td>
+                            <td>{{ $buku->penerbit }}</td>
+                            <td>{{ $buku->tahun_terbit }}</td>
+                            <td>{{ $buku->kategori }}</td>
                             <td>
-                                @if($buku->status === 'tersedia')
-                                    <span class="badge bg-success text-white">Tersedia</span>
-                                @else
-                                    <span class="badge bg-secondary text-white">Dipinjam</span>
-                                @endif
+                                <span class="badge {{ $buku->status === 'tersedia' ? 'bg-success' : 'bg-secondary' }}">
+                                    {{ ucfirst($buku->status) }}
+                                </span>
                             </td>
                             <td>
                                 @if($buku->status === 'tersedia')
-                                   <a href="{{ route('peminjamanbuku.create', ['buku_id' => $buku->id]) }}" class="btn btn-success btn-sm">
-                                        Pinjam Sekarang
-                                   </a>
+                                    <a href="{{ route('peminjamanbuku.create', ['buku_id' => $buku->id]) }}" class="btn btn-sm btn-primary">Pinjam</a>
                                 @else
-                                    <button class="btn btn-secondary btn-sm" disabled>Dipinjam</button>
+                                    <button class="btn btn-sm btn-secondary" disabled>Dipinjam</button>
                                 @endif
                             </td>
                         </tr>
@@ -71,7 +89,9 @@
             </table>
         </div>
     @else
-        <div class="alert alert-info">Tidak ada buku tersedia untuk dipinjam.</div>
+        <div class="alert alert-info">
+            Tidak ada buku yang tersedia{{ request('search') ? ' untuk "' . request('search') . '"' : '' }}.
+        </div>
     @endif
 </div>
 @endsection

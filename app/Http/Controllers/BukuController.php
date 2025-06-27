@@ -8,18 +8,25 @@ use Illuminate\Http\Request;
 class BukuController extends Controller
 {
     public function index(Request $request)
-    {
-        $search = $request->input('search');
+{
+    $search = $request->input('search');
+    $sort = $request->input('sort');
 
-        $bukus = Buku::query()
-            ->when($search, function ($query, $search) {
-                $query->where('judul', 'like', '%' . $search . '%')
-                      ->orWhere('penulis', 'like', '%' . $search . '%');
-            })
-            ->get();
+    $bukus = Buku::when($search, function ($query, $search) {
+            return $query->where(function ($q) use ($search) {
+                $q->where('judul', 'like', '%' . $search . '%')
+                  ->orWhere('penulis', 'like', '%' . $search . '%')
+                  ->orWhere('tahun_terbit', 'like', '%' . $search . '%');
+            });
+        })
+        ->when(in_array($sort, ['asc', 'desc']), function ($query) use ($sort) {
+            return $query->orderBy('judul', $sort);
+        })
+        ->orderBy('id', 'desc')
+        ->get();
 
-        return view('bukus.index', compact('bukus'));
-    }
+    return view('bukus.index', compact('bukus'));
+}
 
     public function create()
     {

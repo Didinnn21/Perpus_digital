@@ -12,17 +12,29 @@ use Carbon\Carbon;
 class PeminjamanbukuController extends Controller
 {
     // Menampilkan daftar buku yang bisa dipinjam
-    public function index(Request $request)
-    {
-        $search = $request->input('search');
+ public function index(Request $request)
+{
+    $search = $request->input('search');
+    $sort = $request->input('sort');
 
-        $bukus = Buku::when($search, function ($query, $search) {
-            return $query->where('judul', 'like', '%' . $search . '%')
-                         ->orWhere('penulis', 'like', '%' . $search . '%');
-        })->get();
+    $bukus = Buku::where('status', 'tersedia')
+        ->when($search, function ($query, $search) {
+            return $query->where(function ($q) use ($search) {
+                $q->where('judul', 'like', "%$search%")
+                  ->orWhere('penulis', 'like', "%$search%")
+                  ->orWhere('penerbit', 'like', "%$search%")
+                  ->orWhere('kategori', 'like', "%$search%")
+                  ->orWhere('tahun_terbit', 'like', "%$search%"); // Tambahan ini
+            });
+        })
+                ->when($sort, function ($query, $sort) {
+            return $query->orderBy('judul', $sort);
+        })
+                ->orderBy('id', 'desc')
+                ->paginate(10);
 
-        return view('peminjamanbuku.index', compact('bukus'));
-    }
+             return view('peminjamanbuku.index', compact('bukus'));
+}
 
     // Menampilkan form peminjaman
     public function create(Request $request)

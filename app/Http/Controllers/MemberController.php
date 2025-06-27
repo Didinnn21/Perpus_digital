@@ -17,17 +17,23 @@ class MemberController extends Controller
 
     // Menampilkan daftar semua member
     public function index(Request $request)
-    {
-        $search = $request->input('search');
+{
+    $search = $request->input('search');
+    $sort = $request->input('sort');
 
-        $members = Member::when($search, function ($query, $search) {
+    $members = Member::when($search, function ($query, $search) {
             return $query->where('nama', 'like', "%{$search}%")
                          ->orWhere('email', 'like', "%{$search}%");
-        })->get();
+        })
+        ->when(in_array($sort, ['asc', 'desc']), function ($query) use ($sort) {
+            return $query->orderBy('nama', $sort);
+        }, function ($query) {
+            return $query->orderBy('id', 'desc');
+        })
+        ->get();
 
-        return view('members.index', compact('members'));
-    }
-
+    return view('members.index', compact('members'));
+}
     // Menampilkan form untuk menambah member baru
     public function create()
     {

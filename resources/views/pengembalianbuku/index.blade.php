@@ -9,12 +9,7 @@
                 <h2>LIBRARY!</h2>
                 <p>Daftar Pengembalian Buku</p>
 
-                <div class="search-input">
-                    <form id="search" action="{{ route('pengembalianbuku.index') }}" method="GET">
-                        <input type="text" placeholder="Cari berdasarkan judul" id="searchText" name="search" value="{{ request('search') }}" />
-                        <button type="submit">Search Now</button>
-                    </form>
-                </div>
+                
             </div>
         </div>
     </div>
