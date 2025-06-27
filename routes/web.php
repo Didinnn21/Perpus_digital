@@ -54,6 +54,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:member'], 'as' => 'adm
     Route::put('/members/{member}', [MemberController::class, 'update'])->name('members.update');
     Route::delete('/members/{member}', [MemberController::class, 'destroy'])->name('members.destroy');
 
+    Route::get('/daftar-peminjam', [AdminController::class, 'daftarPeminjam'])->name('daftar.peminjam');
+
 });
 
 Route::middleware(['auth:member', 'role.member:member'])->group(function () {

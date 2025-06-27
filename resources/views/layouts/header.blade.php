@@ -81,6 +81,7 @@
                 <a href="{{ route('admin.dashboard') }}">Beranda</a>
                 <a href="{{ route('admin.bukus.index') }}">Daftar Buku</a>
                 <a href="{{ route('admin.members.index') }}">Tambah Anggota</a>
+                <a href="{{ route('admin.daftar.peminjam') }}">Daftar Peminjaman</a>
             @elseif ($user && $user->hasRole('member'))
                 <a href="{{ route('member.dashboard') }}">Beranda</a>
                 <a href="{{ route('peminjamanbuku.index') }}">Peminjaman Buku</a>
