@@ -27,6 +27,7 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login-proses',[LoginController::class, 'login_proses'])->name('login-proses');
 Route::post('/logout',[LoginController::class, 'logout'])->name('logout');
@@ -36,7 +37,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:member'], 'as' => 'adm
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
 
     Route::get('/daftar_buku', [DaftarbukuController::class, 'index'])->name('daftar.buku');
-    Route::get('/peminjaman_buku', [PeminjamanbukuController::class, 'index'])->name('peminjaman.buku');
+    //Route::get('/peminjaman_buku', [PeminjamanbukuController::class, 'index'])->name('peminjaman.buku');
 
     Route::get('/bukus', [BukuController::class, 'index'])->name('bukus.index');
     Route::get('/bukus/create', [BukuController::class, 'create'])->name('bukus.create');
@@ -56,6 +57,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:member'], 'as' => 'adm
 
 Route::middleware(['auth:member', 'role.member:member'])->group(function () {
     Route::get('/member/dashboard', [MemberController::class, 'dashboard'])->name('member.dashboard');
+    Route::get('/peminjamanbuku', [PeminjamanbukuController::class, 'index'])->name('peminjamanbuku.index');
+    Route::get('/peminjamanbuku/create', [PeminjamanbukuController::class, 'create'])->name('peminjamanbuku.create');
+    Route::post('/peminjamanbuku', [PeminjamanbukuController::class, 'store'])->name('peminjamanbuku.store');
 });
 
 Route::get('/home', function () {
