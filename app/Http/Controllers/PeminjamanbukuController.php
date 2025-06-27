@@ -7,10 +7,11 @@ use App\Models\Buku;
 use App\Models\Peminjaman;
 use App\Models\Member;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class PeminjamanbukuController extends Controller
 {
+    // Menampilkan daftar buku yang bisa dipinjam
     public function index(Request $request)
     {
         $search = $request->input('search');
@@ -23,45 +24,93 @@ class PeminjamanbukuController extends Controller
         return view('peminjamanbuku.index', compact('bukus'));
     }
 
+    // Menampilkan form peminjaman
     public function create(Request $request)
-{
-    $buku_id = $request->input('buku_id');
-    $buku = Buku::find($buku_id);
+    {
+        $buku_id = $request->input('buku_id');
+        $buku = Buku::find($buku_id);
 
-    if (!$buku || $buku->status === 'dipinjam') {
-        return redirect()->route('peminjamanbuku.index')->with('failed', 'Buku tidak tersedia.');
+        if (!$buku || $buku->status === 'dipinjam') {
+            return redirect()->route('peminjamanbuku.index')->with('failed', 'Buku tidak tersedia.');
+        }
+
+        $member = Member::where('email', Auth::user()->email)->first();
+
+        return view('peminjamanbuku.create', compact('buku', 'member'));
     }
 
-    $member = Member::where('email', Auth::user()->email)->first();
+    // Menyimpan data peminjaman
+    public function store(Request $request)
+    {
+        $request->validate([
+            'buku_id' => 'required|exists:bukus,id',
+            'member_id' => 'required|exists:members,id',
+            'tanggal_kembali' => 'required|date',
+        ]);
 
-    return view('peminjamanbuku.create', compact('buku', 'member'));
-}
+        $buku = Buku::find($request->buku_id);
 
-  public function store(Request $request)
-{
-    $request->validate([
-        'buku_id' => 'required|exists:bukus,id',
-        'member_id' => 'required|exists:members,id',
-        'tanggal_kembali' => 'required|date',
-    ]);
+        if ($buku->status === 'dipinjam') {
+            return redirect()->back()->with('failed', 'Buku sedang dipinjam.');
+        }
 
-    $buku = Buku::find($request->buku_id);
+        Peminjaman::create([
+            'buku_id' => $buku->id,
+            'member_id' => $request->member_id,
+            'tanggal_pinjam' => now(),
+            'tanggal_kembali' => $request->tanggal_kembali,
+        ]);
 
-    if ($buku->status === 'dipinjam') {
-        return redirect()->back()->with('failed', 'Buku sedang dipinjam.');
+        $buku->update(['status' => 'dipinjam']);
+
+        return redirect()->route('peminjamanbuku.index')->with('success', 'Buku berhasil dipinjam.');
     }
 
-    Peminjaman::create([
-        'buku_id' => $buku->id,
-        'member_id' => $request->member_id,
-        'tanggal_pinjam' => now(),
-        'tanggal_kembali' => $request->tanggal_kembali,
-    ]);
+    // Menampilkan daftar buku yang sedang dipinjam
+    public function pengembalianIndex()
+    {
+        $member = Member::where('email', Auth::user()->email)->first();
 
-    // Ganti status dan simpan
-    $buku->status = 'dipinjam';
-    $buku->save();
+        $peminjamans = Peminjaman::with('buku')
+            ->where('member_id', $member->id)
+            ->whereNull('tanggal_pengembalian')
+            ->get();
 
-    return redirect()->route('peminjamanbuku.index')->with('success', 'Buku berhasil dipinjam.');
-}
+        return view('pengembalianbuku.index', compact('peminjamans'));
+    }
+
+    // Menampilkan form pengembalian
+    public function formPengembalian($id)
+    {
+        $peminjaman = Peminjaman::with('buku', 'member')->findOrFail($id);
+
+        if ($peminjaman->tanggal_pengembalian !== null) {
+            return redirect()->back()->with('failed', 'Buku sudah dikembalikan.');
+        }
+
+        return view('pengembalianbuku.from', compact('peminjaman'));
+    }
+
+    // Mengembalikan buku
+    public function kembalikan(Request $request, $id)
+    {
+        $peminjaman = Peminjaman::with('buku')->findOrFail($id);
+
+        if ($peminjaman->tanggal_pengembalian !== null) {
+            return redirect()->back()->with('failed', 'Buku sudah dikembalikan.');
+        }
+
+        $jatuhTempo = Carbon::parse($peminjaman->tanggal_kembali);
+        $hariTerlambat = now()->diffInDays($jatuhTempo, false);
+        $denda = $hariTerlambat < 0 ? abs($hariTerlambat) * 1000 : 0;
+
+        $peminjaman->update([
+            'tanggal_pengembalian' => now(),
+            'denda' => $denda
+        ]);
+
+        $peminjaman->buku->update(['status' => 'tersedia']);
+
+        return redirect()->route('peminjamanbuku.index')->with('success', 'Buku berhasil dikembalikan.');
+    }
 }

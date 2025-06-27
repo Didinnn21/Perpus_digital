@@ -84,6 +84,7 @@
             @elseif ($user && $user->hasRole('member'))
                 <a href="{{ route('member.dashboard') }}">Beranda</a>
                 <a href="{{ route('peminjamanbuku.index') }}">Peminjaman Buku</a>
+                <a href="{{ route('pengembalianbuku.index') }}">Pengembalian Buku</a>
             @endif
         </div>
 
