@@ -79,7 +79,7 @@
         <div class="nav-links">
             @if ($user && $user->hasRole('admin'))
                 <a href="{{ route('admin.dashboard') }}">Beranda</a>
-                <a href="{{ route('admin.bukus.index') }}">Daftar Buku</a>
+                <a href="{{ route('admin.bukus.index') }}">Tambah Buku</a>
                 <a href="{{ route('admin.members.index') }}">Tambah Anggota</a>
                 <a href="{{ route('admin.daftar.peminjam') }}">Daftar Peminjaman</a>
             @elseif ($user && $user->hasRole('member'))

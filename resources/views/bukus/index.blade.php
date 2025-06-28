@@ -7,7 +7,7 @@
             <div class="caption header-text">
                 <h6>Welcome In</h6>
                 <h2>LIBRARY!</h2>
-                <p>Daftar Buku</p>
+                <p>Tambah Buku</p>
                 {{-- Form pencarian DIHAPUS agar tidak duplikat --}}
             </div>
         </div>
@@ -17,7 +17,7 @@
 
 @section('features')
 <div class="container bg-white p-4 rounded shadow-sm">
-    <h3 class="mb-3 text-dark">Daftar Buku</h3>
+    <h3 class="mb-3 text-dark">Tambah Buku</h3>
 
     <!-- Filter A-Z Z-A -->
     <form action="{{ route('admin.bukus.index') }}" method="GET" class="row mb-3">
@@ -51,8 +51,8 @@
                         <th>Judul</th>
                         <th>Penulis</th>
                         <th>Penerbit</th>
-                        <th>Tahun Terbit</th>
                         <th>Kategori</th>
+                        <th>Tahun Terbit</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
