@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role; // <-- Tambahkan ini hanya jika butuh
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
