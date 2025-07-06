@@ -64,16 +64,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:member'], 'as' => 'adm
 
 Route::middleware(['auth:member', 'role.member:member'])->group(function () {
     Route::get('/member/dashboard', [MemberController::class, 'dashboard'])->name('member.dashboard');
-    // Route::get('/peminjamanbuku', [PeminjamanbukuController::class, 'index'])->name('peminjamanbuku.index');
-    // Route::get('/peminjamanbuku/create', [PeminjamanbukuController::class, 'create'])->name('peminjamanbuku.create');
-    // Route::post('/peminjamanbuku', [PeminjamanbukuController::class, 'store'])->name('peminjamanbuku.store');
+    Route::get('/peminjamanbuku', [PeminjamanbukuController::class, 'index'])->name('peminjamanbuku.index');
+    Route::get('/peminjamanbuku/create', [PeminjamanbukuController::class, 'create'])->name('peminjamanbuku.create');
+    Route::post('/peminjamanbuku', [PeminjamanbukuController::class, 'store'])->name('peminjamanbuku.store');
 
-    Route::resource('/peminjamanbuku', PeminjamanbukuController::class);
-    Route::resource('/pengembalianbuku', PeminjamanbukuController::class);
+    // Route::resource('/peminjamanbuku', PeminjamanbukuController::class);
+    // Route::resource('/pengembalianbuku', PeminjamanbukuController::class);
 
-    // Route::get('/pengembalianbuku', [PeminjamanbukuController::class, 'pengembalianIndex'])->name('pengembalianbuku.index');
-    // Route::get('/pengembalianbuku/{id}/form', [PeminjamanbukuController::class, 'formPengembalian'])->name('pengembalianbuku.form');
-    // Route::post('/pengembalianbuku/{id}/kembalikan', [PeminjamanbukuController::class, 'kembalikan'])->name('pengembalianbuku.kembalikan');
+    Route::get('/pengembalianbuku', [PeminjamanbukuController::class, 'pengembalianIndex'])->name('pengembalianbuku.index');
+    Route::get('/pengembalianbuku/{id}/form', [PeminjamanbukuController::class, 'formPengembalian'])->name('pengembalianbuku.form');
+    Route::post('/pengembalianbuku/{id}/kembalikan', [PeminjamanbukuController::class, 'kembalikan'])->name('pengembalianbuku.kembalikan');
 
     Route::get('/riwayat-peminjaman', [RiwayatController::class, 'index'])->name('riwayat.peminjaman');
 

@@ -21,9 +21,11 @@ class BukuController extends Controller
         })
         ->when(in_array($sort, ['asc', 'desc']), function ($query) use ($sort) {
             return $query->orderBy('judul', $sort);
+        }, function ($query) {
+            return $query->orderBy('id', 'desc');
         })
-        ->orderBy('id', 'desc')
-        ->get();
+        ->paginate(10) // PAGINATION supaya semua data bisa dibuka per halaman
+        ->appends($request->query());
 
     return view('bukus.index', compact('bukus'));
 }

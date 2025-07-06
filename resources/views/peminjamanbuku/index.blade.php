@@ -64,7 +64,7 @@
                 <tbody>
                     @foreach($bukus as $buku)
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ ($bukus->currentPage() - 1) * $bukus->perPage() + $loop->iteration }}</td>
                             <td>{{ $buku->id }}</td>
                             <td>{{ $buku->judul }}</td>
                             <td>{{ $buku->penulis }}</td>
@@ -87,6 +87,23 @@
                     @endforeach
                 </tbody>
             </table>
+        </div>
+
+        <!-- PAGINATION TANPA PANAH -->
+        <div class="d-flex justify-content-center mt-4">
+            @if ($bukus->lastPage() > 1)
+                <nav>
+                    <ul class="pagination">
+                        @for ($i = 1; $i <= $bukus->lastPage(); $i++)
+                            <li class="page-item {{ $i == $bukus->currentPage() ? 'active' : '' }}">
+                                <a class="page-link" href="{{ request()->fullUrlWithQuery(['page' => $i]) }}">
+                                    {{ $i }}
+                                </a>
+                            </li>
+                        @endfor
+                    </ul>
+                </nav>
+            @endif
         </div>
     @else
         <div class="alert alert-info">
