@@ -1,5 +1,5 @@
 @php
-    $user = Auth::guard('member')->user();
+$user = Auth::guard('member')->user();
 @endphp
 
 <style>
@@ -7,8 +7,14 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1030;
         padding: 10px 40px;
         background-color: #007bff;
+        scroll-behavior: smooth;
+
     }
 
     .logo img {
