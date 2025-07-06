@@ -25,7 +25,7 @@ class BukuController extends Controller
             return $query->orderBy('id', 'desc');
         })
         ->paginate(10) // PAGINATION supaya semua data bisa dibuka per halaman
-        ->appends($request->query());
+        ->withQueryString();
 
     return view('bukus.index', compact('bukus'));
 }

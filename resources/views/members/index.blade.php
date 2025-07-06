@@ -57,7 +57,7 @@
                 <tbody>
                     @foreach($members as $member)
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ ($members->currentPage() - 1) * $members->perPage() + $loop->iteration }}</td>
                             <td>{{ $member->id }}</td>
                             <td>{{ $member->nama }}</td>
                             <td>{{ $member->alamat }}</td>
@@ -76,6 +76,23 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- PAGINATION TANPA PANAH -->
+        <div class="d-flex justify-content-center mt-4">
+            @if ($members->lastPage() > 1)
+                <nav>
+                    <ul class="pagination">
+                        @for ($i = 1; $i <= $members->lastPage(); $i++)
+                            <li class="page-item {{ $i == $members->currentPage() ? 'active' : '' }}">
+                                <a class="page-link" href="{{ $members->url($i) }}{{ request()->getQueryString() ? '&' . request()->getQueryString() : '' }}">
+                                    {{ $i }}
+                                </a>
+                            </li>
+                        @endfor
+                    </ul>
+                </nav>
+            @endif
+        </div>
     @else
         <div class="alert alert-info">
             @if(request('search'))
@@ -85,14 +102,14 @@
             @endif
         </div>
     @endif
-</div>
 
-<!-- Tombol Tambah Member -->
-<div class="container mt-4 mb-2">
-    <a href="{{ route('admin.members.create') }}"
-       class="btn"
-       style="background-color: blue; color: white; border: 2px solid green;">
-        + Tambah Member
-    </a>
+    <!-- Tombol Tambah Member -->
+    <div class="mt-4">
+        <a href="{{ route('admin.members.create') }}"
+           class="btn"
+           style="background-color: blue; color: white; border: 2px solid green;">
+            + Tambah Member
+        </a>
+    </div>
 </div>
 @endsection

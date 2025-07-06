@@ -7,8 +7,7 @@
             <div class="caption header-text">
                 <h6>Welcome In</h6>
                 <h2>LIBRARY!</h2>
-                <p>Tambah Buku</p>
-                {{-- Form pencarian DIHAPUS agar tidak duplikat --}}
+                <p>Data Buku</p>
             </div>
         </div>
     </div>
@@ -17,10 +16,10 @@
 
 @section('features')
 <div class="container bg-white p-4 rounded shadow-sm">
-    <h3 class="mb-3 text-dark">Tambah Buku</h3>
+    <h3 class="mb-3 text-dark">Data Buku</h3>
 
-    <!-- Filter A-Z Z-A -->
-    <form action="{{ route('admin.bukus.index') }}" method="GET" class="row mb-3">
+    <!-- Filter & Search -->
+    <form action="{{ route('admin.bukus.index') }}" method="GET" class="row mb-3 g-2">
         <div class="col-md-4">
             <input type="text" name="search" class="form-control" placeholder="Cari judul, penulis, tahun, kategori..." value="{{ request('search') }}">
         </div>
@@ -43,7 +42,7 @@
 
     @if($bukus->count())
         <div class="table-responsive">
-            <table class="table table-bordered">
+            <table class="table table-bordered table-striped">
                 <thead class="table-dark">
                     <tr>
                         <th>No</th>
@@ -57,15 +56,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($bukus as $index => $buku)
+                    @foreach($bukus as $buku)
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ ($bukus->currentPage() - 1) * $bukus->perPage() + $loop->iteration }}</td>
                             <td>{{ $buku->id }}</td>
                             <td>{{ $buku->judul }}</td>
                             <td>{{ $buku->penulis }}</td>
                             <td>{{ $buku->penerbit }}</td>
-                            <td>{{ $buku->tahun_terbit }}</td>
                             <td>{{ $buku->kategori }}</td>
+                            <td>{{ $buku->tahun_terbit }}</td>
                             <td>
                                 <a href="{{ route('admin.bukus.edit', $buku->id) }}" class="btn btn-sm btn-warning">Edit</a>
                                 <form action="{{ route('admin.bukus.destroy', $buku->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus buku ini?')">
@@ -78,6 +77,21 @@
                     @endforeach
                 </tbody>
             </table>
+        </div>
+
+        <!-- PAGINATION: angka saja -->
+        <div class="d-flex justify-content-center mt-4">
+            <nav>
+                <ul class="pagination">
+                    @for ($i = 1; $i <= $bukus->lastPage(); $i++)
+                        <li class="page-item {{ $i == $bukus->currentPage() ? 'active' : '' }}">
+                            <a class="page-link" href="{{ $bukus->url($i) }}">
+                                {{ $i }}
+                            </a>
+                        </li>
+                    @endfor
+                </ul>
+            </nav>
         </div>
     @else
         <div class="alert alert-info">

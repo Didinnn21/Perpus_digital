@@ -30,7 +30,8 @@ class MemberController extends Controller
         }, function ($query) {
             return $query->orderBy('id', 'desc');
         })
-        ->get();
+        ->paginate(10)
+        ->appends($request->query());
 
     return view('members.index', compact('members'));
 }
