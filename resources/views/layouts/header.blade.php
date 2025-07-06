@@ -85,8 +85,8 @@ $user = Auth::guard('member')->user();
         <div class="nav-links">
             @if ($user && $user->hasRole('admin'))
                 <a href="{{ route('admin.dashboard') }}">Beranda</a>
-                <a href="{{ route('admin.bukus.index') }}">Tambah Buku</a>
-                <a href="{{ route('admin.members.index') }}">Tambah Anggota</a>
+                <a href="{{ route('admin.bukus.index') }}">Kelolah Buku</a>
+                <a href="{{ route('admin.members.index') }}">Kelolah Anggota</a>
                 <a href="{{ route('admin.daftar.peminjam') }}">Daftar Peminjaman</a>
             @elseif ($user && $user->hasRole('member'))
                 <a href="{{ route('member.dashboard') }}">Beranda</a>
