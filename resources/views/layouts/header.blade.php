@@ -1,5 +1,5 @@
 @php
-$user = Auth::guard('member')->user();
+    $user = Auth::guard('member')->user();
 @endphp
 
 <style>
@@ -13,8 +13,14 @@ $user = Auth::guard('member')->user();
         z-index: 1030;
         padding: 10px 40px;
         background-color: #007bff;
-        scroll-behavior: smooth;
+        height: 120px; /* Tinggi tetap navbar */
+    }
 
+    @media (max-width: 768px) {
+        .navbar {
+            height: 100px;
+            padding: 20px;
+        }
     }
 
     .logo img {
@@ -85,8 +91,8 @@ $user = Auth::guard('member')->user();
         <div class="nav-links">
             @if ($user && $user->hasRole('admin'))
                 <a href="{{ route('admin.dashboard') }}">Beranda</a>
-                <a href="{{ route('admin.bukus.index') }}">Kelolah Buku</a>
-                <a href="{{ route('admin.members.index') }}">Kelolah Anggota</a>
+                <a href="{{ route('admin.bukus.index') }}">Kelola Buku</a>
+                <a href="{{ route('admin.members.index') }}">Kelola Anggota</a>
                 <a href="{{ route('admin.daftar.peminjam') }}">Daftar Peminjaman</a>
             @elseif ($user && $user->hasRole('member'))
                 <a href="{{ route('member.dashboard') }}">Beranda</a>
@@ -97,7 +103,7 @@ $user = Auth::guard('member')->user();
         </div>
 
         <!-- Profile & Logout -->
-        @if($user)
+        @if ($user)
         <div class="user-profile">
             <div class="user-avatar">
                 {{ strtoupper(substr($user->nama ?? 'GU', 0, 2)) }}

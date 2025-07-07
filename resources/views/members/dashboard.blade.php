@@ -34,51 +34,35 @@
 
 @endsection
 
-@section('features')
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3 col-md-6">
-                <a href="#">
-                    <div class="item">
-                        <div class="image">
-                            <img src={{"template/images/featured-01.png" }} alt="" style="max-width: 44px;">
-                        </div>
-                        <h4>Free Storage</h4>
-                    </div>
-                </a>
+@section('statistik')
+<div class="container my-5">
+    <div class="row text-center">
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm border border-3 border-dark rounded">
+                <div class="card-body">
+                    <h5 class="card-title">Total Buku</h5>
+                    <h2 class="fw-bold">{{ $totalBuku }}</h2>
+                </div>
             </div>
-            <div class="col-lg-3 col-md-6">
-                <a href="#">
-                    <div class="item">
-                        <div class="image">
-                            <img src={{"template/images/featured-02.png" }} alt="" style="max-width: 44px;">
-                        </div>
-                        <h4>User More</h4>
-                    </div>
-                </a>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm border border-3 border-dark rounded">
+                <div class="card-body">
+                    <h5 class="card-title">Buku Dipinjam</h5>
+                    <h2 class="fw-bold">{{ $bukuDipinjam }}</h2>
+                </div>
             </div>
-            <div class="col-lg-3 col-md-6">
-                <a href="#">
-                    <div class="item">
-                        <div class="image">
-                            <img src={{"template/images/featured-03.png" }} alt="" style="max-width: 44px;">
-                        </div>
-                        <h4>Reply Ready</h4>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <a href="#">
-                    <div class="item">
-                        <div class="image">
-                            <img src={{"template/images/featured-04.png"  }} alt="" style="max-width: 44px;">
-                        </div>
-                        <h4>Easy Layout</h4>
-                    </div>
-                </a>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm border border-3 border-dark rounded">
+                <div class="card-body">
+                    <h5 class="card-title">Total Denda</h5>
+                    <h2 class="fw-bold">Rp {{ number_format($dendaUser, 0, ',', '.') }}</h2>
+                </div>
             </div>
         </div>
     </div>
+</div>
 @endsection
 
 @section('section-trending')

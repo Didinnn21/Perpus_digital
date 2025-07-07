@@ -4,14 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Peminjaman;
+use App\Models\Buku;
+use App\Models\Member;
 
 class AdminController extends Controller
 {
     public function index()
-    {
-        return view('admin.dashboard');
-    }
+{
+    $totalBuku = Buku::count();
+    $totalAnggota = Member::count();
+    $anggotaMeminjam = Peminjaman::whereNull('tanggal_pengembalian')
+                          ->distinct('member_id')
+                          ->count('member_id');
 
+    return view('admin.dashboard', compact('totalBuku', 'totalAnggota', 'anggotaMeminjam'));
+}
     public function daftarPeminjam(Request $request)
 {
     $search = $request->input('search');
@@ -27,7 +34,7 @@ class AdminController extends Controller
         })
         ->join('members', 'peminjamans.member_id', '=', 'members.id')
         ->orderBy('members.nama', $sort)
-        ->select('peminjamans.*') 
+        ->select('peminjamans.*')
         ->get();
 
     return view('admin.daftar_member_peminjam', compact('peminjamans'));

@@ -12,15 +12,6 @@
                         <p>Halo, <strong>{{ Auth::user()->name }}</strong>! Anda login sebagai
                             <strong>{{ ucfirst(Auth::user()->role) }}</strong>ADMIN</p>
                     @endauth
-                    <p>Selamat datang di Perpustakaan Online kami — pusat referensi digital yang dirancang untuk memudahkan Anda dalam mencari, membaca, dan meminjam berbagai koleksi buku secara praktis. Dengan sistem yang cepat dan user-friendly, kami hadir untuk mendukung kebutuhan literasi Anda di era digital.
-                     Jelajahi ribuan judul buku, kelola peminjaman dengan mudah, dan nikmati kemudahan belajar di mana saja, kapan saja.</p>
-                    <div class="search-input">
-                        <form id="search" action="#">
-                            <input type="text" placeholder="Type Something" id='searchText' name="searchKeyword"
-                                onkeypress="handle" />
-                            <button role="button">Search Now</button>
-                        </form>
-                    </div>
                 </div>
             </div>
             <div class="col-lg-4 offset-lg-2">
@@ -35,52 +26,39 @@
 
 @endsection
 
-@section('features')
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3 col-md-6">
-                <a href="#">
-                    <div class="item">
-                        <div class="image">
-                            <img src={{"template/images/featured-01.png" }} alt="" style="max-width: 44px;">
-                        </div>
-                        <h4>Free Storage</h4>
-                    </div>
-                </a>
+{{-- Statistik Jumlah Anggota, Buku, Peminjam --}}
+@section('statistik')
+<div class="container my-5">
+    <div class="row text-center">
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm border border-3 border-dark rounded">
+                <div class="card-body">
+                    <h5 class="card-title">Total Anggota</h5>
+                    <h2 class="fw-bold">{{ $totalAnggota }}</h2>
+                </div>
             </div>
-            <div class="col-lg-3 col-md-6">
-                <a href="#">
-                    <div class="item">
-                        <div class="image">
-                            <img src={{"template/images/featured-02.png" }} alt="" style="max-width: 44px;">
-                        </div>
-                        <h4>User More</h4>
-                    </div>
-                </a>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm border border-3 border-dark rounded">
+                <div class="card-body">
+                    <h5 class="card-title">Total Buku</h5>
+                    <h2 class="fw-bold">{{ $totalBuku }}</h2>
+                </div>
             </div>
-            <div class="col-lg-3 col-md-6">
-                <a href="#">
-                    <div class="item">
-                        <div class="image">
-                            <img src={{"template/images/featured-03.png" }} alt="" style="max-width: 44px;">
-                        </div>
-                        <h4>Reply Ready</h4>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <a href="#">
-                    <div class="item">
-                        <div class="image">
-                            <img src={{"template/images/featured-04.png"  }} alt="" style="max-width: 44px;">
-                        </div>
-                        <h4>Easy Layout</h4>
-                    </div>
-                </a>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm border border-3 border-dark rounded">
+                <div class="card-body">
+                    <h5 class="card-title">Sedang Meminjam</h5>
+                    <h2 class="fw-bold">{{ $anggotaMeminjam }}</h2>
+                </div>
             </div>
         </div>
     </div>
+</div>
 @endsection
+
+
 
 @section('section-trending')
     <div class="container">

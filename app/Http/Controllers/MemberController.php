@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Member;
+use App\Models\Buku;
+use App\Models\Peminjaman;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -10,10 +13,23 @@ use Spatie\Permission\Models\Role;
 
 class MemberController extends Controller
 {
-    public function dashboard()
-    {
-        return view('members.dashboard');
+   public function dashboard()
+{
+    $user = Auth::user(); // atau Auth::guard('web')->user();
+
+    if (!$user) {
+        return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
     }
+
+    $totalBuku = Buku::count();
+    $bukuDipinjam = Peminjaman::where('member_id', $user->id)
+                    ->whereNull('tanggal_pengembalian')
+                    ->count();
+    $dendaUser = Peminjaman::where('member_id', $user->id)->sum('denda');
+
+    return view('members.dashboard', compact('totalBuku', 'bukuDipinjam', 'dendaUser'));
+}
+
 
     // Menampilkan daftar semua member
     public function index(Request $request)
