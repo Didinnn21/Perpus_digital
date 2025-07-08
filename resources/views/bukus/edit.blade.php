@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('main-banner')
-<div class="main-banner">
+{{-- <div class="main-banner">
   <div class="container">
     <div class="row">
       <div class="col-lg-6 align-self-center">
@@ -13,11 +13,11 @@
       </div>
     </div>
   </div>
-</div>
+</div> --}}
 @endsection
 
 @section('features')
-<div class="container bg-white p-4 rounded shadow-sm mt-4 mb-5">
+<div class="container bg-white p-4 rounded shadow-sm mt-5 mb-5">
   <h3 class="mb-4 text-dark">Form Edit Buku</h3>
 
   <form action="{{ route('admin.bukus.update', $buku->id) }}" method="POST">

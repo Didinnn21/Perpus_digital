@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('main-banner')
-<div class="container">
+{{-- <div class="container">
     <div class="row">
         <div class="col-lg-6 align-self-center">
             <div class="caption header-text">
@@ -11,7 +11,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 @endsection
 
 @section('features')

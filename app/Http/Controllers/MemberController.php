@@ -13,23 +13,55 @@ use Spatie\Permission\Models\Role;
 
 class MemberController extends Controller
 {
-   public function dashboard()
+   public function dashboard(Request $request)
 {
-    $user = Auth::user(); // atau Auth::guard('web')->user();
+    $user = Auth::user();
 
     if (!$user) {
         return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
     }
 
+    $tahun = $request->input('tahun', now()->year);
+
+    // Ambil data peminjaman hanya untuk member yang sedang login
+    $grafikData = Peminjaman::selectRaw('MONTH(tanggal_pinjam) as bulan, COUNT(*) as jumlah')
+        ->where('member_id', $user->id)
+        ->whereYear('tanggal_pinjam', $tahun)
+        ->groupByRaw('MONTH(tanggal_pinjam)')
+        ->pluck('jumlah', 'bulan')
+        ->toArray();
+
+    // Susun data 12 bulan
+    $grafikArray = [];
+    for ($i = 1; $i <= 12; $i++) {
+        $grafikArray[] = $grafikData[$i] ?? 0;
+    }
+
+    // Ambil daftar tahun dari data peminjaman user
+    $tahunList = Peminjaman::where('member_id', $user->id)
+        ->selectRaw('YEAR(tanggal_pinjam) as tahun')
+        ->distinct()
+        ->orderBy('tahun', 'desc')
+        ->pluck('tahun')
+        ->toArray();
+
+    // Data statistik
     $totalBuku = Buku::count();
     $bukuDipinjam = Peminjaman::where('member_id', $user->id)
-                    ->whereNull('tanggal_pengembalian')
-                    ->count();
+        ->whereNull('tanggal_pengembalian')
+        ->count();
     $dendaUser = Peminjaman::where('member_id', $user->id)->sum('denda');
 
-    return view('members.dashboard', compact('totalBuku', 'bukuDipinjam', 'dendaUser'));
+    // Kirim ke view
+    return view('members.dashboard', [
+        'totalBuku' => $totalBuku,
+        'bukuDipinjam' => $bukuDipinjam,
+        'dendaUser' => $dendaUser,
+        'grafikData' => $grafikArray,
+        'tahun' => $tahun,
+        'tahunList' => $tahunList,
+    ]);
 }
-
 
     // Menampilkan daftar semua member
     public function index(Request $request)

@@ -30,10 +30,14 @@
         z-index: 1030;
         padding: 10px 40px;
         background-color: #007bff;
+<<<<<<< HEAD
         height: 120px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         box-sizing: border-box;
         /* Tambahkan ini */
+=======
+        height: 100px; /* Tinggi tetap navbar */
+>>>>>>> b4a2826c571e866431bf2dbc837bd4efa3d4c9df
     }
 
     @media (max-width: 768px) {
@@ -65,13 +69,23 @@
         text-decoration: none;
         margin: 0 15px;
         font-weight: 500;
+<<<<<<< HEAD
         padding: 8px 12px;
         border-radius: 4px;
         transition: all 0.3s ease;
+=======
+        position: relative;
+        padding-bottom: 4px;
+>>>>>>> b4a2826c571e866431bf2dbc837bd4efa3d4c9df
     }
 
     .nav-links a:hover {
         text-decoration: underline;
+    }
+
+    .nav-links a.active {
+        font-weight: bold;
+        border-bottom: 2px solid white;
     }
 
     .user-profile {
@@ -132,15 +146,22 @@
         <!-- Menu -->
         <div class="nav-links">
             @if ($user && $user->hasRole('admin'))
+<<<<<<< HEAD
                 <a href="{{ route('admin.dashboard') }}">Beranda</a>
                 <a href="{{ route('admin.bukus.index') }}">Manajemen Buku</a>
                 <a href="{{ route('admin.members.index') }}">Manajemen Anggota</a>
                 <a href="{{ route('admin.daftar.peminjam') }}">Daftar Peminjaman</a>
+=======
+                <a href="{{ route('admin.dashboard') }}" class="{{ Request::routeIs('admin.dashboard') ? 'active' : '' }}">Beranda</a>
+                <a href="{{ route('admin.bukus.index') }}" class="{{ Request::routeIs('admin.bukus.*') ? 'active' : '' }}">Kelola Buku</a>
+                <a href="{{ route('admin.members.index') }}" class="{{ Request::routeIs('admin.members.*') ? 'active' : '' }}">Kelola Anggota</a>
+                <a href="{{ route('admin.daftar.peminjam') }}" class="{{ Request::routeIs('admin.daftar.peminjam') ? 'active' : '' }}">Daftar Peminjaman</a>
+>>>>>>> b4a2826c571e866431bf2dbc837bd4efa3d4c9df
             @elseif ($user && $user->hasRole('member'))
-                <a href="{{ route('member.dashboard') }}">Beranda</a>
-                <a href="{{ route('peminjamanbuku.index') }}">Peminjaman Buku</a>
-                <a href="{{ route('pengembalianbuku.index') }}">Pengembalian Buku</a>
-                <a href="{{ route('riwayat.peminjaman') }}">Riwayat</a>
+                <a href="{{ route('member.dashboard') }}" class="{{ Request::routeIs('member.dashboard') ? 'active' : '' }}">Beranda</a>
+                <a href="{{ route('peminjamanbuku.index') }}" class="{{ Request::routeIs('peminjamanbuku.*') ? 'active' : '' }}">Peminjaman Buku</a>
+                <a href="{{ route('pengembalianbuku.index') }}" class="{{ Request::routeIs('pengembalianbuku.*') ? 'active' : '' }}">Pengembalian Buku</a>
+                <a href="{{ route('riwayat.peminjaman') }}" class="{{ Request::routeIs('riwayat.peminjaman') ? 'active' : '' }}">Riwayat</a>
             @endif
         </div>
 
