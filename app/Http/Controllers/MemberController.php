@@ -23,7 +23,6 @@ class MemberController extends Controller
 
     $tahun = $request->input('tahun', now()->year);
 
-    // Ambil data peminjaman hanya untuk member yang sedang login
     $grafikData = Peminjaman::selectRaw('MONTH(tanggal_pinjam) as bulan, COUNT(*) as jumlah')
         ->where('member_id', $user->id)
         ->whereYear('tanggal_pinjam', $tahun)
