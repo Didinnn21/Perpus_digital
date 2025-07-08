@@ -120,6 +120,8 @@
     <script src="{{ asset('template/js/counter.js') }}"></script>
     <script src="{{ asset('template/js/custom.js') }}"></script>
 
+    @yield('scripts')
+
 </body>
 
 </html>

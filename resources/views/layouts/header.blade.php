@@ -13,7 +13,7 @@
         z-index: 1030;
         padding: 10px 40px;
         background-color: #007bff;
-        height: 120px; /* Tinggi tetap navbar */
+        height: 100px; /* Tinggi tetap navbar */
     }
 
     @media (max-width: 768px) {
@@ -32,10 +32,17 @@
         text-decoration: none;
         margin: 0 15px;
         font-weight: 500;
+        position: relative;
+        padding-bottom: 4px;
     }
 
     .nav-links a:hover {
         text-decoration: underline;
+    }
+
+    .nav-links a.active {
+        font-weight: bold;
+        border-bottom: 2px solid white;
     }
 
     .user-profile {
@@ -90,15 +97,15 @@
         <!-- Menu -->
         <div class="nav-links">
             @if ($user && $user->hasRole('admin'))
-                <a href="{{ route('admin.dashboard') }}">Beranda</a>
-                <a href="{{ route('admin.bukus.index') }}">Kelola Buku</a>
-                <a href="{{ route('admin.members.index') }}">Kelola Anggota</a>
-                <a href="{{ route('admin.daftar.peminjam') }}">Daftar Peminjaman</a>
+                <a href="{{ route('admin.dashboard') }}" class="{{ Request::routeIs('admin.dashboard') ? 'active' : '' }}">Beranda</a>
+                <a href="{{ route('admin.bukus.index') }}" class="{{ Request::routeIs('admin.bukus.*') ? 'active' : '' }}">Kelola Buku</a>
+                <a href="{{ route('admin.members.index') }}" class="{{ Request::routeIs('admin.members.*') ? 'active' : '' }}">Kelola Anggota</a>
+                <a href="{{ route('admin.daftar.peminjam') }}" class="{{ Request::routeIs('admin.daftar.peminjam') ? 'active' : '' }}">Daftar Peminjaman</a>
             @elseif ($user && $user->hasRole('member'))
-                <a href="{{ route('member.dashboard') }}">Beranda</a>
-                <a href="{{ route('peminjamanbuku.index') }}">Peminjaman Buku</a>
-                <a href="{{ route('pengembalianbuku.index') }}">Pengembalian Buku</a>
-                <a href="{{ route('riwayat.peminjaman') }}">Riwayat</a>
+                <a href="{{ route('member.dashboard') }}" class="{{ Request::routeIs('member.dashboard') ? 'active' : '' }}">Beranda</a>
+                <a href="{{ route('peminjamanbuku.index') }}" class="{{ Request::routeIs('peminjamanbuku.*') ? 'active' : '' }}">Peminjaman Buku</a>
+                <a href="{{ route('pengembalianbuku.index') }}" class="{{ Request::routeIs('pengembalianbuku.*') ? 'active' : '' }}">Pengembalian Buku</a>
+                <a href="{{ route('riwayat.peminjaman') }}" class="{{ Request::routeIs('riwayat.peminjaman') ? 'active' : '' }}">Riwayat</a>
             @endif
         </div>
 

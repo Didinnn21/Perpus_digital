@@ -6,18 +6,45 @@ use Illuminate\Http\Request;
 use App\Models\Peminjaman;
 use App\Models\Buku;
 use App\Models\Member;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
-    public function index()
-{
-    $totalBuku = Buku::count();
-    $totalAnggota = Member::count();
-    $anggotaMeminjam = Peminjaman::whereNull('tanggal_pengembalian')
-                          ->distinct('member_id')
-                          ->count('member_id');
+    public function index(Request $request)
+    {
+        $tahun = $request->input('tahun', date('Y'));
 
-    return view('admin.dashboard', compact('totalBuku', 'totalAnggota', 'anggotaMeminjam'));
+        $totalBuku = Buku::count();
+        $totalAnggota = Member::count();
+        $anggotaMeminjam = Peminjaman::whereNull('tanggal_pengembalian')
+            ->distinct('member_id')
+            ->count('member_id');
+
+        $tahunList = Peminjaman::selectRaw('YEAR(tanggal_pinjam) as tahun')
+            ->distinct()
+            ->pluck('tahun');
+
+        $peminjamanPerBulan = Peminjaman::selectRaw('MONTH(tanggal_pinjam) as bulan, COUNT(*) as total')
+            ->whereYear('tanggal_pinjam', $tahun)
+            ->groupByRaw('MONTH(tanggal_pinjam)')
+            ->pluck('total', 'bulan')
+            ->toArray();
+
+        // Normalize semua bulan agar tidak kosong
+        $grafikData = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $grafikData[] = $peminjamanPerBulan[$i] ?? 0;
+        }
+
+        return view('admin.dashboard', compact(
+            'totalBuku',
+            'totalAnggota',
+            'anggotaMeminjam',
+            'grafikData',
+            'tahun',
+            'tahunList'
+        ));
+    
 }
     public function daftarPeminjam(Request $request)
 {
