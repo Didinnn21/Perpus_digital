@@ -13,54 +13,51 @@ use Spatie\Permission\Models\Role;
 
 class MemberController extends Controller
 {
-   public function dashboard(Request $request)
-{
-    $user = Auth::user();
+    public function dashboard(Request $request)
+    {
+        $user = Auth::user();
 
-    if (!$user) {
-        return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
+        // --- Data Statistik untuk Member ---
+        // Bagian ini tetap dipertahankan untuk menampilkan ringkasan.
+        $totalBuku = Buku::count();
+        $bukuDipinjam = Peminjaman::where('member_id', $user->id)
+            ->whereIn('status', ['dipinjam', 'terlambat'])
+            ->count();
+        $dendaUser = Peminjaman::where('member_id', $user->id)
+            ->where('status', 'terlambat')
+            ->sum('denda');
+
+        // --- Daftar Buku yang Sedang Dipinjam Member ---
+        // Bagian ini juga dipertahankan agar member tahu buku apa saja yang sedang dipinjam.
+        $bukuDipinjamList = Peminjaman::with('buku')
+            ->where('member_id', $user->id)
+            ->whereIn('status', ['dipinjam', 'terlambat'])
+            ->get();
+
+
+        $search = $request->input('search');
+        $daftarBuku = Buku::query()
+            ->when($search, function ($query, $search) {
+                return $query->where('judul', 'like', "%{$search}%")
+                    ->orWhere('penulis', 'like', "%{$search}%");
+            })
+            ->paginate(12)
+            ->appends(request()->query()); 
+
+
+
+        return view('members.dashboard', [
+            'totalBuku' => $totalBuku,
+            'bukuDipinjam' => $bukuDipinjam,
+            'dendaUser' => $dendaUser,
+            'bukuDipinjamList' => $bukuDipinjamList,
+            'daftarBuku' => $daftarBuku,
+        ]);
     }
-
-    $tahun = $request->input('tahun', now()->year);
-
-    $grafikData = Peminjaman::selectRaw('MONTH(tanggal_pinjam) as bulan, COUNT(*) as jumlah')
-        ->where('member_id', $user->id)
-        ->whereYear('tanggal_pinjam', $tahun)
-        ->groupByRaw('MONTH(tanggal_pinjam)')
-        ->pluck('jumlah', 'bulan')
-        ->toArray();
-
-    // Susun data 12 bulan
-    $grafikArray = [];
-    for ($i = 1; $i <= 12; $i++) {
-        $grafikArray[] = $grafikData[$i] ?? 0;
-    }
-
-    // Ambil daftar tahun dari data peminjaman user
-    $tahunList = Peminjaman::where('member_id', $user->id)
-        ->selectRaw('YEAR(tanggal_pinjam) as tahun')
-        ->distinct()
-        ->orderBy('tahun', 'desc')
-        ->pluck('tahun')
-        ->toArray();
-
-    // Data statistik
-    $totalBuku = Buku::count();
-    $bukuDipinjam = Peminjaman::where('member_id', $user->id)
-        ->whereNull('tanggal_pengembalian')
-        ->count();
-    $dendaUser = Peminjaman::where('member_id', $user->id)->sum('denda');
-
-    // Kirim ke view
-    return view('members.dashboard', [
-        'totalBuku' => $totalBuku,
-        'bukuDipinjam' => $bukuDipinjam,
-        'dendaUser' => $dendaUser,
-        'grafikData' => $grafikArray,
-        'tahun' => $tahun,
-        'tahunList' => $tahunList,
-    ]);
-}
 
     // Menampilkan daftar semua member
     public function index(Request $request)
