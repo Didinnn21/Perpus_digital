@@ -169,6 +169,8 @@
                     class="{{ Request::routeIs('admin.members.*') ? 'active' : '' }}">Manajemen Anggota</a>
                 <a href="{{ route('admin.daftar.peminjam') }}"
                     class="{{ Request::routeIs('admin.daftar.peminjam') ? 'active' : '' }}">Daftar Peminjaman</a>
+                <a href="{{ route('admin.laporan.index') }}"
+                    class="{{ Request::routeIs('admin.laporan.*') ? 'active' : '' }}">Laporan</a>
             @elseif ($user && $user->hasRole('member'))
                 <a href="{{ route('member.dashboard') }}"
                     class="{{ Request::routeIs('member.dashboard') ? 'active' : '' }}">Beranda</a>

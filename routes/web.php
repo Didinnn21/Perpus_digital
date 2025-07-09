@@ -11,6 +11,7 @@ use App\Http\Controllers\PustakawanController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\RiwayatController;
+use App\Http\Controllers\LaporanController;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -32,6 +33,7 @@ Route::get('/', function () {
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login-proses',[LoginController::class, 'login_proses'])->name('login-proses');
 Route::post('/logout',[LoginController::class, 'logout'])->name('logout');
+
 
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth:member'], 'as' => 'admin.'], function () {
@@ -59,6 +61,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:member'], 'as' => 'adm
     Route::resource('/members', MemberController::class);
 
     Route::get('/daftar-peminjam', [AdminController::class, 'daftarPeminjam'])->name('daftar.peminjam');
+
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+    Route::get('/laporan/cetak', [LaporanController::class, 'cetak'])->name('laporan.cetak');
 
 });
 
