@@ -14,41 +14,42 @@ use Spatie\Permission\Models\Role;
 class MemberController extends Controller
 {
     public function dashboard(Request $request)
-    {
+{
         $user = Auth::user();
 
         if (!$user) {
             return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
         }
 
-        // --- Data Statistik untuk Member ---
-        // Bagian ini tetap dipertahankan untuk menampilkan ringkasan.
+        // Statistik
         $totalBuku = Buku::count();
+
+        // Hanya hitung buku yang belum dikembalikan
         $bukuDipinjam = Peminjaman::where('member_id', $user->id)
-            ->whereIn('status', ['dipinjam', 'terlambat'])
+            ->whereNull('tanggal_pengembalian')
             ->count();
+
+        // Total denda yang masih aktif (belum dikembalikan)
         $dendaUser = Peminjaman::where('member_id', $user->id)
             ->where('status', 'terlambat')
+            ->whereNull('tanggal_pengembalian')
             ->sum('denda');
 
-        // --- Daftar Buku yang Sedang Dipinjam Member ---
-        // Bagian ini juga dipertahankan agar member tahu buku apa saja yang sedang dipinjam.
+        // Daftar buku yang belum dikembalikan
         $bukuDipinjamList = Peminjaman::with('buku')
             ->where('member_id', $user->id)
-            ->whereIn('status', ['dipinjam', 'terlambat'])
+            ->whereNull('tanggal_pengembalian') // hanya yang belum dikembalikan
             ->get();
 
-
+        // Buku yang tersedia dan bisa dipinjam
         $search = $request->input('search');
-        $daftarBuku = Buku::query()
+        $daftarBuku = Buku::where('status', 'tersedia')
             ->when($search, function ($query, $search) {
                 return $query->where('judul', 'like', "%{$search}%")
-                    ->orWhere('penulis', 'like', "%{$search}%");
+                            ->orWhere('penulis', 'like', "%{$search}%");
             })
             ->paginate(12)
-            ->appends(request()->query()); 
-
-
+            ->appends(request()->query());
 
         return view('members.dashboard', [
             'totalBuku' => $totalBuku,
@@ -56,8 +57,8 @@ class MemberController extends Controller
             'dendaUser' => $dendaUser,
             'bukuDipinjamList' => $bukuDipinjamList,
             'daftarBuku' => $daftarBuku,
-        ]);
-    }
+    ]);
+}
 
     // Menampilkan daftar semua member
     public function index(Request $request)

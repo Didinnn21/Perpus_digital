@@ -29,14 +29,11 @@ class BukuController extends Controller
     /**
      * Menampilkan form untuk membuat buku baru.
      */
-    public function create()
+     public function create()
     {
         return view('bukus.create');
     }
 
-    /**
-     * Menyimpan buku baru ke database.
-     */
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -45,9 +42,10 @@ class BukuController extends Controller
             'penerbit' => 'required|string|max:255',
             'tahun_terbit' => 'required|digits:4|integer',
             'kategori' => 'required|string|max:255',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
+        // Jika user mengupload gambar
         if ($request->hasFile('gambar')) {
             $validatedData['gambar'] = $request->file('gambar')->store('images', 'public');
         }
@@ -57,17 +55,11 @@ class BukuController extends Controller
         return redirect()->route('admin.bukus.index')->with('success', 'Buku berhasil ditambahkan.');
     }
 
-    /**
-     * Menampilkan form untuk mengedit buku.
-     */
     public function edit(Buku $buku)
     {
         return view('bukus.edit', compact('buku'));
     }
 
-    /**
-     * Memperbarui data buku di database.
-     */
     public function update(Request $request, Buku $buku)
     {
         $validatedData = $request->validate([
@@ -76,31 +68,25 @@ class BukuController extends Controller
             'penerbit' => 'required|string|max:255',
             'tahun_terbit' => 'required|digits:4|integer',
             'kategori' => 'required|string|max:255',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Cek jika ada file gambar baru yang diunggah
         if ($request->hasFile('gambar')) {
-            // Hapus gambar lama dari storage jika ada
+            // Hapus gambar lama jika ada
             if ($buku->gambar) {
                 Storage::disk('public')->delete($buku->gambar);
             }
-            // Simpan gambar baru dan masukkan path-nya ke data yang akan di-update
+
             $validatedData['gambar'] = $request->file('gambar')->store('images', 'public');
         }
 
-        // Update data buku di database
         $buku->update($validatedData);
 
         return redirect()->route('admin.bukus.index')->with('success', 'Buku berhasil diperbarui.');
     }
 
-    /**
-     * Menghapus buku dari database.
-     */
     public function destroy(Buku $buku)
     {
-        // Hapus gambar dari storage jika ada
         if ($buku->gambar) {
             Storage::disk('public')->delete($buku->gambar);
         }

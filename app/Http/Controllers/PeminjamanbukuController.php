@@ -17,24 +17,25 @@ class PeminjamanbukuController extends Controller
     $search = $request->input('search');
     $sort = $request->input('sort');
 
-    $bukus = Buku::where('status', 'tersedia')
+    $daftarBuku = Buku::where('status', 'tersedia')
         ->when($search, function ($query, $search) {
             return $query->where(function ($q) use ($search) {
                 $q->where('judul', 'like', "%$search%")
                   ->orWhere('penulis', 'like', "%$search%")
                   ->orWhere('penerbit', 'like', "%$search%")
                   ->orWhere('kategori', 'like', "%$search%")
-                  ->orWhere('tahun_terbit', 'like', "%$search%"); // Tambahan ini
+                  ->orWhere('tahun_terbit', 'like', "%$search%");
             });
         })
-                ->when($sort, function ($query, $sort) {
+        ->when($sort, function ($query, $sort) {
             return $query->orderBy('judul', $sort);
         })
-                ->orderBy('id', 'desc')
-                ->paginate(10);
+        ->orderBy('id', 'desc')
+        ->paginate(12);
 
-             return view('peminjamanbuku.index', compact('bukus'));
+    return view('peminjamanbuku.index', compact('daftarBuku'));
 }
+
 
     // Menampilkan form peminjaman
     public function create(Request $request)

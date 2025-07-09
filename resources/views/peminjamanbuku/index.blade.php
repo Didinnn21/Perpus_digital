@@ -1,113 +1,59 @@
 @extends('layouts.main')
 
 @section('main-banner')
-{{-- <div class="container">
-    <div class="row">
-        <div class="col-lg-6 align-self-center">
-            <div class="caption header-text">
-                <h6>Welcome In</h6>
-                <h2>LIBRARY!</h2>
-                <p>Daftar Buku yang Tersedia untuk Dipinjam</p>
-            </div>
-        </div>
-    </div>
-</div> --}}
 @endsection
 
-@section('features')
-<div class="container bg-white p-4 rounded shadow-sm">
-    <h3 class="mb-3 text-dark">Daftar Buku</h3>
+@section('content')
+<div class="container my-5">
+    <h3 class="text-center mb-2">Pilih dan Pinjam Buku</h3>
+    <p class="text-center text-muted mb-4">Jelajahi koleksi buku yang tersedia di perpustakaan kami.</p>
 
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
+    <!-- Form pencarian -->
+    <div class="row justify-content-center mb-4">
+        <div class="col-md-6">
+            <form method="GET" action="{{ route('peminjamanbuku.index') }}">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control" placeholder="Cari judul atau penulis..." value="{{ request('search') }}">
+                    <button class="btn btn-primary" type="submit">Cari</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-    <!-- Filter & Search -->
-    <form action="{{ route('peminjamanbuku.index') }}" method="GET" class="row mb-3 g-2">
-        <div class="col-md-4">
-            <input type="text" name="search" class="form-control" placeholder="Cari judul, penulis, tahun..." value="{{ request('search') }}">
-        </div>
-        <div class="col-md-3">
-            <select name="sort" class="form-select">
-                <option value="">Urutkan Judul</option>
-                <option value="asc" {{ request('sort') == 'asc' ? 'selected' : '' }}>A - Z</option>
-                <option value="desc" {{ request('sort') == 'desc' ? 'selected' : '' }}>Z - A</option>
-            </select>
-        </div>
-        <div class="col-md-2">
-            <button type="submit" class="btn btn-primary w-100">Terapkan</button>
-        </div>
-        <div class="col-md-3">
-            @if(request('search') || request('sort'))
-                <a href="{{ route('peminjamanbuku.index') }}" class="btn btn-secondary w-100">Reset Filter</a>
-            @endif
-        </div>
-    </form>
-
-    <!-- Tabel Buku -->
-    @if($bukus->count())
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped">
-                <thead class="table-dark">
-                    <tr>
-                        <th>No</th>
-                        <th>ID Buku</th>
-                        <th>Judul</th>
-                        <th>Penulis</th>
-                        <th>Penerbit</th>
-                        <th>Tahun</th>
-                        <th>Kategori</th>
-                        <th>Status</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($bukus as $buku)
-                        <tr>
-                            <td>{{ ($bukus->currentPage() - 1) * $bukus->perPage() + $loop->iteration }}</td>
-                            <td>{{ $buku->id }}</td>
-                            <td>{{ $buku->judul }}</td>
-                            <td>{{ $buku->penulis }}</td>
-                            <td>{{ $buku->penerbit }}</td>
-                            <td>{{ $buku->tahun_terbit }}</td>
-                            <td>{{ $buku->kategori }}</td>
-                            <td>
-                                <span class="badge {{ $buku->status === 'tersedia' ? 'bg-success' : 'bg-secondary' }}">
-                                    {{ ucfirst($buku->status) }}
-                                </span>
-                            </td>
-                            <td>
-                                @if($buku->status === 'tersedia')
-                                    <a href="{{ route('peminjamanbuku.create', ['buku_id' => $buku->id]) }}" class="btn btn-sm btn-primary">Pinjam</a>
-                                @else
-                                    <button class="btn btn-sm btn-secondary" disabled>Dipinjam</button>
-                                @endif
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+    @if($daftarBuku->count() > 0)
+        <div class="row">
+            @foreach($daftarBuku as $buku)
+                <div class="col-6 col-md-4 col-lg-3 mb-4">
+                    <div class="card shadow-sm h-100">
+                        @if($buku->gambar)
+                            <img src="{{ asset('storage/' . $buku->gambar) }}" class="card-img-top" alt="{{ $buku->judul }}" style="height: 200px; object-fit: cover;">
+                        @else
+                            <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height: 200px;">
+                                <i class="fas fa-book-open text-white fa-3x"></i>
+                            </div>
+                        @endif
+                        <div class="card-body d-flex flex-column">
+                            <h6 class="card-title fw-bold">{{ Str::limit($buku->judul, 45) }}</h6>
+                            <p class="card-text small text-muted">{{ $buku->penulis }}</p>
+                            <p class="small"><span class="badge bg-info text-dark">{{ $buku->kategori }}</span></p>
+                            <div class="mt-auto text-center">
+                                <a href="{{ route('peminjamanbuku.create', ['buku_id' => $buku->id]) }}" class="btn btn-sm btn-primary w-100">Pinjam</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
         </div>
 
-        <!-- PAGINATION TANPA PANAH -->
+        <!-- Pagination -->
         <div class="d-flex justify-content-center mt-4">
-            @if ($bukus->lastPage() > 1)
-                <nav>
-                    <ul class="pagination">
-                        @for ($i = 1; $i <= $bukus->lastPage(); $i++)
-                            <li class="page-item {{ $i == $bukus->currentPage() ? 'active' : '' }}">
-                                <a class="page-link" href="{{ request()->fullUrlWithQuery(['page' => $i]) }}">
-                                    {{ $i }}
-                                </a>
-                            </li>
-                        @endfor
-                    </ul>
-                </nav>
-            @endif
+            {{ $daftarBuku->links() }}
         </div>
     @else
-        <div class="alert alert-info">
-            Tidak ada buku yang tersedia{{ request('search') ? ' untuk "' . request('search') . '"' : '' }}.
+        <div class="text-center">
+            <div class="alert alert-warning">
+                Buku yang Anda cari tidak ditemukan.
+            </div>
         </div>
     @endif
 </div>

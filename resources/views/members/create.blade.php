@@ -17,7 +17,7 @@
 @endsection
 
 @section('features')
-<div class="container bg-white p-4 rounded shadow-sm mt-5 mb-5">
+<div class="container bg-white p-4 rounded shadow-sm mt-3 mb-5">
     <h3 class="mb-4 text-dark">Form Tambah Member</h3>
 
     <form action="{{ route('admin.members.store') }}" method="POST">
