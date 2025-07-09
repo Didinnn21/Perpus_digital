@@ -15,7 +15,7 @@
 @endsection
 
 @section('features')
-<div class="container bg-white p-4 rounded shadow-sm">
+<div class="container bg-white p-4 rounded shadow-sm" style="margin-top: 130px;">
     <h3 class="mb-3 text-dark">Daftar Buku yang Dipinjam</h3>
 
     @if(session('success'))

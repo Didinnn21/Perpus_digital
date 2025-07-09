@@ -15,7 +15,7 @@
 @endsection
 
 @section('features')
-<div class="container bg-white p-4 rounded shadow-sm mt-4">
+<div class="container bg-white p-4 rounded shadow-sm" style="margin-top: 130px;">
     <h3 class="mb-3 text-dark">Daftar Member</h3>
 
     <!-- FORM FILTER & SEARCH -->

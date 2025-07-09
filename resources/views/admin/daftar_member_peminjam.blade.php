@@ -1,7 +1,8 @@
 @extends('layouts.main')
 
 @section('main-banner')
-{{-- <div class="container">
+{{--
+<div class="container">
     <div class="row">
         <div class="col-lg-6 align-self-center">
             <div class="caption header-text">
@@ -11,11 +12,12 @@
             </div>
         </div>
     </div>
-</div> --}}
+</div>
+--}}
 @endsection
 
 @section('features')
-<div class="container bg-white p-4 rounded shadow-sm mt-3">
+<div class="container bg-white p-4 rounded shadow-sm" style="margin-top: 120px;">
     <h3 class="mb-4 text-dark">Daftar Member yang Sedang Meminjam Buku</h3>
 
     <!-- Filter dan Search -->

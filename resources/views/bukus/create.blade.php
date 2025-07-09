@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('features')
-<div class="container bg-white p-4 rounded shadow-sm mt-5 mb-5">
+<div class="container bg-white p-4 rounded shadow-sm" style="margin-top: 130px;">
     <h3 class="mb-4 text-dark">Form Tambah Buku</h3>
 
     <form action="{{ route('admin.bukus.store') }}" method="POST" enctype="multipart/form-data">
