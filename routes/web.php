@@ -76,6 +76,8 @@ Route::middleware(['auth:member', 'role.member:member'])->group(function () {
     Route::get('/peminjamanbuku/create', [PeminjamanbukuController::class, 'create'])->name('peminjamanbuku.create');
     Route::post('/peminjamanbuku', [PeminjamanbukuController::class, 'store'])->name('peminjamanbuku.store');
 
+    Route::get('/Laporan/denda', [AdminController::class, 'laporanDenda'])->name('laporan.denda');
+
     // Route::resource('/peminjamanbuku', PeminjamanbukuController::class);
     // Route::resource('/pengembalianbuku', PeminjamanbukuController::class);
 

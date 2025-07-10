@@ -20,6 +20,13 @@ class Peminjaman extends Model
         'denda',
     ];
 
+
+    protected $casts = [
+        'tanggal_pinjam' => 'date:Y-m-d',
+        'tanggal_kembali' => 'date:Y-m-d',
+        'tanggal_pengembalian' => 'date:Y-m-d',
+    ];
+
     public function buku()
     {
         return $this->belongsTo(Buku::class);

@@ -47,28 +47,28 @@ class PeminjamanbukuController extends Controller
     }
 
     public function create(Request $request)
-{
-    $buku_id = $request->input('buku_id');
-    $buku = Buku::find($buku_id);
+    {
+        $buku_id = $request->input('buku_id');
+        $buku = Buku::find($buku_id);
 
-    if (!$buku || $buku->jumlah_unit < 1) {
-        return redirect()->route('peminjamanbuku.index')->with('failed', 'Buku tidak tersedia.');
+        if (!$buku || $buku->jumlah_unit < 1) {
+            return redirect()->route('peminjamanbuku.index')->with('failed', 'Buku tidak tersedia.');
+        }
+
+        $member = Member::where('email', Auth::user()->email)->first();
+
+        // Pengecekan denda di sini
+        $totalDenda = Peminjaman::where('member_id', $member->id)
+            ->whereNull('tanggal_pengembalian')
+            ->where('denda', '>', 0)
+            ->sum('denda');
+
+        if ($totalDenda > 0) {
+            return redirect()->route('peminjamanbuku.index')->with('failed', 'Anda masih memiliki denda sebesar Rp ' . number_format($totalDenda, 0, ',', '.') . '. Harap lunasi terlebih dahulu.');
+        }
+
+        return view('peminjamanbuku.create', compact('buku', 'member'));
     }
-
-    $member = Member::where('email', Auth::user()->email)->first();
-
-    // ✅ Tambahkan pengecekan denda di sini
-    $totalDenda = Peminjaman::where('member_id', $member->id)
-        ->whereNull('tanggal_pengembalian')
-        ->where('denda', '>', 0)
-        ->sum('denda');
-
-    if ($totalDenda > 0) {
-        return redirect()->route('peminjamanbuku.index')->with('failed', 'Anda masih memiliki denda sebesar Rp ' . number_format($totalDenda, 0, ',', '.') . '. Harap lunasi terlebih dahulu.');
-    }
-
-    return view('peminjamanbuku.create', compact('buku', 'member'));
-}
     public function store(Request $request)
     {
         $request->validate([
@@ -121,46 +121,53 @@ class PeminjamanbukuController extends Controller
     // Menampilkan form pengembalian
     public function formPengembalian($id)
     {
+        // Logika ini sudah bagus: menggunakan with() dan findOrFail()
         $peminjaman = Peminjaman::with('buku', 'member')->findOrFail($id);
+
+        // Pengecekan ini juga sudah bagus
+        if ($peminjaman->tanggal_pengembalian !== null) {
+            return redirect()->back()->with('failed', 'Buku ini sudah dikembalikan sebelumnya.');
+        }
+
+        // PERBAIKAN: Kesalahan pengetikan ada di sini.
+        // Sebelumnya: 'pengembalianbuku.from'
+        // Seharusnya: 'pengembalianbuku.form' (sesuai nama file view Anda)
+        return view('pengembalianbuku.form', compact('peminjaman'));
+    }
+
+    // Mengembalikan buku
+    public function kembalikan(Request $request, $id)
+    {
+        $request->validate([
+            'tanggal_pengembalian' => 'required|date',
+            'denda' => 'nullable|numeric',
+        ]);
+
+        $peminjaman = Peminjaman::with('buku')->findOrFail($id);
 
         if ($peminjaman->tanggal_pengembalian !== null) {
             return redirect()->back()->with('failed', 'Buku sudah dikembalikan.');
         }
 
-        return view('pengembalianbuku.from', compact('peminjaman'));
+        $tanggalPengembalian = Carbon::parse($request->tanggal_pengembalian);
+        $jatuhTempo = Carbon::parse($peminjaman->tanggal_kembali);
+
+        // Logika denda ini sudah bagus, menggunakan data dari form sebagai prioritas
+        $denda = $request->filled('denda')
+            ? $request->input('denda')
+            : ($tanggalPengembalian->greaterThan($jatuhTempo)
+                ? $tanggalPengembalian->diffInDays($jatuhTempo) * 10000
+                : 0);
+
+        $peminjaman->update([
+            'tanggal_pengembalian' => $tanggalPengembalian,
+            'denda' => $denda
+        ]);
+
+        $peminjaman->buku->increment('jumlah_unit');
+
+        // PENYEMPURNAAN: Redirect ke halaman daftar buku yang dipinjam, bukan ke halaman utama.
+        // Ini memberikan pengalaman pengguna yang lebih baik.
+        return redirect()->route('pengembalianbuku.index')->with('success', 'Buku berhasil dikembalikan.');
     }
-
-    // Mengembalikan buku
-    public function kembalikan(Request $request, $id)
-{
-    $request->validate([
-        'tanggal_pengembalian' => 'required|date',
-        'denda' => 'nullable|numeric', // agar nilai dari form bisa dibaca
-    ]);
-
-    $peminjaman = Peminjaman::with('buku')->findOrFail($id);
-
-    if ($peminjaman->tanggal_pengembalian !== null) {
-        return redirect()->back()->with('failed', 'Buku sudah dikembalikan.');
-    }
-
-    $tanggalPengembalian = \Carbon\Carbon::parse($request->tanggal_pengembalian);
-    $jatuhTempo = \Carbon\Carbon::parse($peminjaman->tanggal_kembali);
-
-    // Gunakan denda dari form, jika kosong hitung manual
-    $denda = $request->filled('denda')
-        ? $request->input('denda')
-        : ($tanggalPengembalian->greaterThan($jatuhTempo)
-            ? $tanggalPengembalian->diffInDays($jatuhTempo) * 10000
-            : 0);
-
-    $peminjaman->update([
-        'tanggal_pengembalian' => $tanggalPengembalian,
-        'denda' => $denda
-    ]);
-
-    $peminjaman->buku->increment('jumlah_unit');
-
-    return redirect()->route('peminjamanbuku.index')->with('success', 'Buku berhasil dikembalikan.');
-}
 }
