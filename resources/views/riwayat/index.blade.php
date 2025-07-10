@@ -60,7 +60,15 @@
                             <td>{{ $riwayat->tanggal_pinjam }}</td>
                             <td>{{ $riwayat->tanggal_kembali }}</td>
                             <td>{{ $riwayat->tanggal_pengembalian ?? '-' }}</td>
-                            <td>Rp {{ number_format($riwayat->denda, 0, ',', '.') }}</td>
+                            <td>
+                                @php
+                                    $tglKembali = \Carbon\Carbon::parse($riwayat->tanggal_kembali);
+                                    $tglPengembalian = \Carbon\Carbon::parse($riwayat->tanggal_pengembalian);
+                                    $hariTerlambat = $tglPengembalian->greaterThan($tglKembali) ? $tglPengembalian->diffInDays($tglKembali) : 0;
+                                    $dendaHitung = $hariTerlambat * 10000;
+                                @endphp
+                                Rp {{ number_format($riwayat->denda ?? $dendaHitung, 0, ',', '.') }}
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>

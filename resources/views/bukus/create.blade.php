@@ -37,6 +37,12 @@
             @error('tahun_terbit') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 
+        <div class="form-group mb-3">
+            <label for="jumlah_unit">Jumlah Unit</label>
+            <input type="number" class="form-control" id="jumlah_unit" name="jumlah_unit" value="{{ old('jumlah_unit') }}" required>
+            @error('jumlah_unit') <small class="text-danger">{{ $message }}</small> @enderror
+        </div>
+
         <div class="form-group mb-4">
             <label for="gambar">Gambar Sampul</label>
             <input type="file" class="form-control" id="gambar" name="gambar">

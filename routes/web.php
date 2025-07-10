@@ -36,6 +36,7 @@ Route::post('/logout',[LoginController::class, 'logout'])->name('logout');
 
 
 
+
 Route::group(['prefix' => 'admin', 'middleware' => ['auth:member'], 'as' => 'admin.'], function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
 
@@ -64,7 +65,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:member'], 'as' => 'adm
 
     Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
     Route::get('/laporan/cetak', [LaporanController::class, 'cetak'])->name('laporan.cetak');
-
+    Route::get('/laporan/denda', [App\Http\Controllers\LaporanController::class, 'denda'])->name('laporan.denda');
+    Route::get('/laporan/denda/bayar/{id}', [LaporanController::class, 'formBayarDenda'])->name('laporan.bayar_denda');
+    Route::post('/laporan/denda/bayar/{id}', [LaporanController::class, 'prosesBayarDenda'])->name('admin.laporan.bayar_denda_proses');
 });
 
 Route::middleware(['auth:member', 'role.member:member'])->group(function () {

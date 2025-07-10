@@ -1,21 +1,10 @@
 @extends('layouts.main')
 
 @section('main-banner')
-{{-- <div class="container">
-    <div class="row">
-        <div class="col-lg-6 align-self-center">
-            <div class="caption header-text">
-                <h6>Welcome In</h6>
-                <h2>LIBRARY!</h2>
-                <p>Form Pengembalian Buku</p>
-            </div>
-        </div>
-    </div>
-</div> --}}
 @endsection
 
 @section('features')
-<div class="container bg-white p-4 rounded shadow-sm mt-4 mb-5">
+<div class="container bg-white p-4 rounded shadow-sm mb-5" style="margin-top: 120px;">
     <h3 class="mb-4 text-dark">Form Pengembalian Buku</h3>
 
     @if(session('failed'))
@@ -26,53 +15,75 @@
         @csrf
 
         {{-- Informasi Buku --}}
-        <div class="form-group">
+        <div class="form-group mb-3">
             <label>Judul Buku</label>
             <input type="text" class="form-control" value="{{ $peminjaman->buku->judul }}" readonly>
         </div>
 
         {{-- Informasi Member --}}
-        <div class="form-group">
+        <div class="form-group mb-3">
             <label>Nama Member</label>
             <input type="text" class="form-control" value="{{ $peminjaman->member->nama }}" readonly>
         </div>
 
-        {{-- Tanggal Pinjam & Kembali --}}
-        <div class="form-group">
+        {{-- Tanggal Pinjam --}}
+        <div class="form-group mb-3">
             <label>Tanggal Pinjam</label>
             <input type="text" class="form-control" value="{{ $peminjaman->tanggal_pinjam }}" readonly>
         </div>
 
-        <div class="form-group">
-            <label>Tanggal Kembali (Jatuh Tempo)</label>
-            <input type="text" class="form-control" value="{{ $peminjaman->tanggal_kembali }}" readonly>
+        {{-- Tanggal Kembali (Jatuh Tempo) --}}
+        <div class="form-group mb-3">
+            <label>Jatuh Tempo</label>
+            <input type="text" class="form-control" id="tanggal_kembali" value="{{ $peminjaman->tanggal_kembali }}" readonly>
         </div>
 
-        {{-- Tanggal Pengembalian Hari Ini --}}
-        <div class="form-group">
-            <label>Tanggal Pengembalian</label>
-            <input type="text" class="form-control" value="{{ now()->toDateString() }}" readonly>
+        {{-- Input Tanggal Pengembalian --}}
+        <div class="form-group mb-3">
+            <label for="tanggal_pengembalian">Tanggal Pengembalian</label>
+            <input type="date" name="tanggal_pengembalian" id="tanggal_pengembalian" class="form-control" value="{{ now()->toDateString() }}" required>
+            @error('tanggal_pengembalian')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
         </div>
 
         {{-- Denda --}}
-        @php
-            $today = \Carbon\Carbon::now();
-            $kembali = \Carbon\Carbon::parse($peminjaman->tanggal_kembali);
-            $selisih = $today->diffInDays($kembali, false);
-            $dendaPerHari = 1000;
-            $denda = $selisih > 0 ? 0 : abs($selisih) * $dendaPerHari;
-        @endphp
-
-        <div class="form-group">
+        <div class="form-group mb-3">
             <label>Denda</label>
-            <input type="text" class="form-control" value="Rp {{ number_format($denda, 0, ',', '.') }}" readonly>
+            <input type="text" id="denda_display" class="form-control text-danger" value="Rp 0" readonly>
+            <input type="number" name="denda" id="denda_input" class="form-control d-none" readonly>
         </div>
 
-        {{-- Tombol --}}
         <div class="d-flex justify-content-between mt-4">
             <a href="{{ route('pengembalianbuku.index') }}" class="btn btn-secondary">Kembali</a>
             <button type="submit" class="btn btn-success">Konfirmasi Pengembalian</button>
         </div>
     </form>
 </div>
+
+<style>
+    .d-none { display: none; }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const tanggalKembali = new Date(document.getElementById('tanggal_kembali').value);
+        const inputPengembalian = document.getElementById('tanggal_pengembalian');
+        const inputDenda = document.getElementById('denda_input');
+        const displayDenda = document.getElementById('denda_display');
+        const dendaPerHari = 10000;
+
+        function hitungDenda() {
+            const tglPengembalian = new Date(inputPengembalian.value);
+            const selisihHari = Math.floor((tglPengembalian - tanggalKembali) / (1000 * 60 * 60 * 24));
+            const denda = selisihHari > 0 ? selisihHari * dendaPerHari : 0;
+
+            inputDenda.value = denda;
+            displayDenda.value = `Rp ${denda.toLocaleString('id-ID')}`;
+        }
+
+        inputPengembalian.addEventListener('change', hitungDenda);
+        hitungDenda(); // hitung saat pertama kali load
+    });
+</script>
 @endsection

@@ -35,55 +35,54 @@ class BukuController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $validatedData = $request->validate([
-            'judul' => 'required|string|max:255',
-            'penulis' => 'required|string|max:255',
-            'penerbit' => 'required|string|max:255',
-            'tahun_terbit' => 'required|digits:4|integer',
-            'kategori' => 'required|string|max:255',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+{
+    $validatedData = $request->validate([
+        'judul' => 'required|string|max:255',
+        'penulis' => 'required|string|max:255',
+        'penerbit' => 'required|string|max:255',
+        'tahun_terbit' => 'required|digits:4|integer',
+        'kategori' => 'required|string|max:255',
+        'jumlah_unit' => 'required|integer|min:0',
+        'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
 
-        // Jika user mengupload gambar
-        if ($request->hasFile('gambar')) {
-            $validatedData['gambar'] = $request->file('gambar')->store('images', 'public');
-        }
-
-        Buku::create($validatedData);
-
-        return redirect()->route('admin.bukus.index')->with('success', 'Buku berhasil ditambahkan.');
+    if ($request->hasFile('gambar')) {
+        $validatedData['gambar'] = $request->file('gambar')->store('images', 'public');
     }
+
+    Buku::create($validatedData);
+
+    return redirect()->route('admin.bukus.index')->with('success', 'Buku berhasil ditambahkan.');
+}
 
     public function edit(Buku $buku)
     {
         return view('bukus.edit', compact('buku'));
     }
 
-    public function update(Request $request, Buku $buku)
-    {
-        $validatedData = $request->validate([
-            'judul' => 'required|string|max:255',
-            'penulis' => 'required|string|max:255',
-            'penerbit' => 'required|string|max:255',
-            'tahun_terbit' => 'required|digits:4|integer',
-            'kategori' => 'required|string|max:255',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+   public function update(Request $request, Buku $buku)
+{
+    $validatedData = $request->validate([
+        'judul' => 'required|string|max:255',
+        'penulis' => 'required|string|max:255',
+        'penerbit' => 'required|string|max:255',
+        'tahun_terbit' => 'required|digits:4|integer',
+        'kategori' => 'required|string|max:255',
+        'jumlah_unit' => 'required|integer|min:0',
+        'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
 
-        if ($request->hasFile('gambar')) {
-            // Hapus gambar lama jika ada
-            if ($buku->gambar) {
-                Storage::disk('public')->delete($buku->gambar);
-            }
-
-            $validatedData['gambar'] = $request->file('gambar')->store('images', 'public');
+    if ($request->hasFile('gambar')) {
+        if ($buku->gambar) {
+            Storage::disk('public')->delete($buku->gambar);
         }
-
-        $buku->update($validatedData);
-
-        return redirect()->route('admin.bukus.index')->with('success', 'Buku berhasil diperbarui.');
+        $validatedData['gambar'] = $request->file('gambar')->store('images', 'public');
     }
+
+    $buku->update($validatedData);
+
+    return redirect()->route('admin.bukus.index')->with('success', 'Buku berhasil diperbarui.');
+}
 
     public function destroy(Buku $buku)
     {

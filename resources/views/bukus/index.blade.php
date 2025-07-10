@@ -52,6 +52,7 @@
                         <th>Penerbit</th>
                         <th>Kategori</th>
                         <th>Tahun Terbit</th>
+                        <th>Jumlah Unit</th> <!-- Tambahan -->
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -65,6 +66,7 @@
                             <td>{{ $buku->penerbit }}</td>
                             <td>{{ $buku->kategori }}</td>
                             <td>{{ $buku->tahun_terbit }}</td>
+                            <td>{{ $buku->jumlah_unit }}</td> <!-- Tambahan -->
                             <td>
                                 <a href="{{ route('admin.bukus.edit', $buku->id) }}" class="btn btn-sm btn-warning">Edit</a>
                                 <form action="{{ route('admin.bukus.destroy', $buku->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus buku ini?')">

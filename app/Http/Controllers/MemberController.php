@@ -15,49 +15,49 @@ class MemberController extends Controller
 {
     public function dashboard(Request $request)
 {
-        $user = Auth::user();
+    $user = Auth::user();
 
-        if (!$user) {
-            return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
-        }
+    if (!$user) {
+        return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
+    }
 
-        // Statistik
-        $totalBuku = Buku::count();
+    $member = Member::where('email', $user->email)->first();
 
-        // Hanya hitung buku yang belum dikembalikan
-        $bukuDipinjam = Peminjaman::where('member_id', $user->id)
-            ->whereNull('tanggal_pengembalian')
-            ->count();
+    if (!$member) {
+        return redirect()->route('login')->with('error', 'Data member tidak ditemukan.');
+    }
 
-        // Total denda yang masih aktif (belum dikembalikan)
-        $dendaUser = Peminjaman::where('member_id', $user->id)
-            ->where('status', 'terlambat')
-            ->whereNull('tanggal_pengembalian')
-            ->sum('denda');
+    $totalBuku = Buku::count();
 
-        // Daftar buku yang belum dikembalikan
-        $bukuDipinjamList = Peminjaman::with('buku')
-            ->where('member_id', $user->id)
-            ->whereNull('tanggal_pengembalian') // hanya yang belum dikembalikan
-            ->get();
+    $bukuDipinjam = Peminjaman::where('member_id', $member->id)
+        ->whereNull('tanggal_pengembalian')
+        ->count();
 
-        // Buku yang tersedia dan bisa dipinjam
-        $search = $request->input('search');
-        $daftarBuku = Buku::where('status', 'tersedia')
-            ->when($search, function ($query, $search) {
-                return $query->where('judul', 'like', "%{$search}%")
-                            ->orWhere('penulis', 'like', "%{$search}%");
-            })
-            ->paginate(12)
-            ->appends(request()->query());
+    $dendaUser = Peminjaman::where('member_id', $member->id)
+        ->where('denda', '>', 0)
+        ->sum('denda');
+        
+    $bukuDipinjamList = Peminjaman::with('buku')
+        ->where('member_id', $member->id)
+        ->whereNull('tanggal_pengembalian')
+        ->get();
 
-        return view('members.dashboard', [
-            'totalBuku' => $totalBuku,
-            'bukuDipinjam' => $bukuDipinjam,
-            'dendaUser' => $dendaUser,
-            'bukuDipinjamList' => $bukuDipinjamList,
-            'daftarBuku' => $daftarBuku,
-    ]);
+    $search = $request->input('search');
+    $daftarBuku = Buku::where('status', 'tersedia')
+        ->when($search, function ($query, $search) {
+            return $query->where('judul', 'like', "%{$search}%")
+                        ->orWhere('penulis', 'like', "%{$search}%");
+        })
+        ->paginate(12)
+        ->appends(request()->query());
+
+    return view('members.dashboard', compact(
+        'totalBuku',
+        'bukuDipinjam',
+        'dendaUser',
+        'bukuDipinjamList',
+        'daftarBuku'
+    ));
 }
 
     // Menampilkan daftar semua member
