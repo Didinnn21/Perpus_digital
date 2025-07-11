@@ -4,6 +4,10 @@
 <div class="container mt-4">
     <h3 class="mb-4">Laporan Denda Member</h3>
 
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+
     @if($members->count() > 0)
         <table class="table table-bordered">
             <thead>
@@ -30,9 +34,7 @@
             </tbody>
         </table>
     @else
-        <div class="alert alert-info">
-            Tidak ada member yang memiliki denda.
-        </div>
+        <div class="alert alert-info">Tidak ada member yang memiliki denda.</div>
     @endif
 </div>
 @endsection

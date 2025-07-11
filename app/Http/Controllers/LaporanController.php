@@ -11,7 +11,7 @@ use Carbon\Carbon;
 class LaporanController extends Controller
 {
 
-     
+
     public function index(Request $request)
     {
 
@@ -141,7 +141,7 @@ class LaporanController extends Controller
         return view('admin.laporan.form_bayar_denda', compact('member', 'totalDenda'));
     }
 
-    public function prosesBayarDenda(Request $request, $id)
+    public function bayarDendaProses(Request $request, $id)
     {
         Peminjaman::where('member_id', $id)
             ->where('denda', '>', 0)

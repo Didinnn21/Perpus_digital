@@ -4,7 +4,7 @@
 <div class="container bg-white p-4 rounded shadow-sm my-5">
     <h3 class="mb-4">Form Pembayaran Denda</h3>
 
-    <form method="POST" action="{{ route('admin.laporan.bayar_denda_proses', $member->id) }}">
+   <form action="{{ route('admin.laporan.bayar_denda_proses', $member->id) }}" method="POST">
         @csrf
 
         {{-- Informasi Member --}}
@@ -21,15 +21,24 @@
         {{-- Daftar Buku yang Didenda --}}
         <div class="form-group mb-3">
             <label>Buku yang Didenda</label>
+            @php
+                $totalDenda = 0;
+            @endphp
+
             @if($member->peminjamans->count() > 0)
                 <ul class="list-group">
                     @foreach($member->peminjamans as $pinjam)
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            {{ $pinjam->buku->judul ?? 'Judul tidak tersedia' }}
-                            <span class="badge bg-danger text-white">
-                                Rp {{ number_format($pinjam->denda, 0, ',', '.') }}
-                            </span>
-                        </li>
+                        @if($pinjam->denda > 0)
+                            @php
+                                $totalDenda += $pinjam->denda;
+                            @endphp
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {{ $pinjam->buku->judul ?? 'Judul tidak tersedia' }}
+                                <span class="badge bg-danger text-white">
+                                    Rp {{ number_format($pinjam->denda, 0, ',', '.') }}
+                                </span>
+                            </li>
+                        @endif
                     @endforeach
                 </ul>
             @else
@@ -37,8 +46,16 @@
             @endif
         </div>
 
+        {{-- Tampilkan Total Denda dan Kirim sebagai Hidden Input --}}
+        @if($totalDenda > 0)
+        <div class="form-group mb-3 text-end fw-bold">
+            Total Denda: <span class="text-danger">Rp {{ number_format($totalDenda, 0, ',', '.') }}</span>
+            <input type="hidden" name="total_denda" value="{{ $totalDenda }}">
+        </div>
+        @endif
+
         <div class="d-flex justify-content-between mt-4">
-            <a href="{{ route('admin.laporan.denda') }}" class="btn btn-secondary">Kembali</a>
+            <a href="{{ route('laporan.denda') }}" class="btn btn-secondary">Kembali</a>
             <button type="submit" class="btn btn-success">Bayar Sekarang</button>
         </div>
     </form>

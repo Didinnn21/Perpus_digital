@@ -225,9 +225,9 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $member->nama }}</td>
                                             <td>Rp {{ number_format($member->total_denda, 0, ',', '.') }}</td>
-                                            <td><a href="{{ route('admin.laporan.bayar_denda', $member->id) }}"
-                                                    class="btn btn-sm btn-success">Bayar Denda</a></td>
-                                        </tr>
+                                            <td>
+                                            <a href="{{ route('admin.laporan.bayar_denda', $member->id) }}" class="btn btn-sm btn-success">Bayar Denda</a>
+                                            </td>
                                     @empty
                                         <tr>
                                             <td colspan="4" class="text-center p-4">Tidak ada denda pada periode ini.</td>

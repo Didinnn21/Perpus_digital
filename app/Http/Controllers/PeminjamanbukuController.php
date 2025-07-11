@@ -132,7 +132,9 @@ class PeminjamanbukuController extends Controller
         // PERBAIKAN: Kesalahan pengetikan ada di sini.
         // Sebelumnya: 'pengembalianbuku.from'
         // Seharusnya: 'pengembalianbuku.form' (sesuai nama file view Anda)
+
         return view('pengembalianbuku.from', compact('peminjaman'));
+
     }
 
     // Mengembalikan buku

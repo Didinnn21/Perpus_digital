@@ -65,9 +65,19 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:member'], 'as' => 'adm
 
     Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
     Route::get('/laporan/cetak', [LaporanController::class, 'cetak'])->name('laporan.cetak');
-    Route::get('/laporan/denda', [App\Http\Controllers\LaporanController::class, 'denda'])->name('laporan.denda');
+
+
+    // Menampilkan halaman daftar member yang punya denda
+    Route::get('/laporan/denda', [LaporanController::class, 'denda'])->name('laporan.denda');
+
+    // GET untuk form bayar
     Route::get('/laporan/denda/bayar/{id}', [LaporanController::class, 'formBayarDenda'])->name('laporan.bayar_denda');
+
+    // POST untuk proses bayar (gunakan salah satu saja)
+    Route::post('/laporan/denda/bayar/{id}', [LaporanController::class, 'bayarDendaProses'])->name('laporan.bayar_denda_proses');
+
     Route::post('/laporan/denda/bayar/{id}', [LaporanController::class, 'prosesBayarDenda'])->name('laporan.bayar_denda_proses');
+
 });
 
 Route::middleware(['auth:member', 'role.member:member'])->group(function () {
@@ -85,8 +95,8 @@ Route::middleware(['auth:member', 'role.member:member'])->group(function () {
     Route::get('/pengembalianbuku/{id}/form', [PeminjamanbukuController::class, 'formPengembalian'])->name('pengembalianbuku.form');
     Route::post('/pengembalianbuku/{id}/kembalikan', [PeminjamanbukuController::class, 'kembalikan'])->name('pengembalianbuku.kembalikan');
 
+    //Route::post('/laporan/denda/bayar/{id}', [LaporanController::class, 'prosesBayarDenda'])->name('laporan.bayar_denda_proses');
 
-    Route::post('/laporan/denda/bayar/{id}', [LaporanController::class, 'prosesBayarDenda'])->name('laporan.bayar_denda_proses');
 
 
 
@@ -131,3 +141,4 @@ Route::middleware('auth')->group(function () {
 
 
 require __DIR__.'/auth.php';
+

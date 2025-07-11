@@ -11,7 +11,8 @@
         <div class="alert alert-danger">{{ session('failed') }}</div>
     @endif
 
-   <form action="{{ route('pengembalianbuku.kembalikan', $peminjaman->id) }}" method="POST">
+
+    <form action="{{ route('pengembalianbuku.kembalikan', $peminjaman->id) }}" method="POST">
 
         @csrf
 
@@ -29,17 +30,17 @@
 
         {{-- Tanggal Pinjam --}}
         <div class="form-group mb-3">
-
-          <label>Tanggal Pinjam</label>
+            <label>Tanggal Pinjam</label>
             <input type="text" class="form-control" value="{{ \Carbon\Carbon::parse($peminjaman->tanggal_pinjam)->format('d-m-Y') }}" readonly>
         </div>
 
+        {{-- Tanggal Kembali (Jatuh Tempo) --}}
         <div class="form-group mb-3">
             <label>Jatuh Tempo</label>
             <input type="text" class="form-control" value="{{ \Carbon\Carbon::parse($peminjaman->tanggal_kembali)->format('d-m-Y') }}" readonly>
-            <input type="hidden" id="tanggal_kembali" value="{{ \Carbon\Carbon::parse($peminjaman->tanggal_kembali)->format('Y-m-d') }}">
-
+            <input type="hidden" id="tanggal_kembali_value" value="{{ \Carbon\Carbon::parse($peminjaman->tanggal_kembali)->format('Y-m-d') }}">
         </div>
+
         {{-- Input Tanggal Pengembalian --}}
         <div class="form-group mb-3">
             <label for="tanggal_pengembalian">Tanggal Pengembalian</label>
@@ -69,23 +70,23 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const tanggalKembali = new Date(document.getElementById('tanggal_kembali').value);
-        const inputPengembalian = document.getElementById('tanggal_pengembalian');
-        const inputDenda = document.getElementById('denda_input');
-        const displayDenda = document.getElementById('denda_display');
-        const dendaPerHari = 10000;
+    const tanggalKembali = new Date(document.getElementById('tanggal_kembali_value').value); // fix di sini
+    const inputPengembalian = document.getElementById('tanggal_pengembalian');
+    const inputDenda = document.getElementById('denda_input');
+    const displayDenda = document.getElementById('denda_display');
+    const dendaPerHari = 10000;
 
-        function hitungDenda() {
-            const tglPengembalian = new Date(inputPengembalian.value);
-            const selisihHari = Math.floor((tglPengembalian - tanggalKembali) / (1000 * 60 * 60 * 24));
-            const denda = selisihHari > 0 ? selisihHari * dendaPerHari : 0;
+    function hitungDenda() {
+        const tglPengembalian = new Date(inputPengembalian.value);
+        const selisihHari = Math.floor((tglPengembalian - tanggalKembali) / (1000 * 60 * 60 * 24));
+        const denda = selisihHari > 0 ? selisihHari * dendaPerHari : 0;
 
-            inputDenda.value = denda;
-            displayDenda.value = `Rp ${denda.toLocaleString('id-ID')}`;
-        }
+        inputDenda.value = denda;
+        displayDenda.value = `Rp ${denda.toLocaleString('id-ID')}`;
+    }
 
-        inputPengembalian.addEventListener('change', hitungDenda);
-        hitungDenda(); // hitung saat pertama kali load
-    });
+    inputPengembalian.addEventListener('change', hitungDenda);
+    hitungDenda(); // hitung saat pertama kali load
+});
 </script>
 @endsection
