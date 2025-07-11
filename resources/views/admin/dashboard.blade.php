@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('statistik')
-<div class="container my-5">
+<div class="container mb-5" style="margin-top: 150px;"> {{-- <--- Jarak dari navbar --}}
     <div class="row text-center">
         <div class="col-md-4 mb-4">
             <div class="card shadow border border-2">

@@ -17,12 +17,13 @@
 @endsection
 
 @section('features')
-<div class="container bg-white p-4 rounded shadow-sm mt-3 mb-5">
+<div class="container bg-white p-4 rounded shadow-sm mb-5" style="margin-top: 150px;">
     <h3 class="mb-4 text-dark">Form Tambah Member</h3>
 
     <form action="{{ route('admin.members.store') }}" method="POST">
         @csrf
-        <div class="form-group">
+
+        <div class="form-group mb-3">
             <label for="nama">Nama</label>
             <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan nama lengkap" required>
             @error('nama')
@@ -30,7 +31,7 @@
             @enderror
         </div>
 
-        <div class="form-group">
+        <div class="form-group mb-3">
             <label for="alamat">Alamat</label>
             <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukkan alamat lengkap" required>
             @error('alamat')
@@ -38,7 +39,7 @@
             @enderror
         </div>
 
-        <div class="form-group">
+        <div class="form-group mb-3">
             <label for="nomer_telepon">Nomor Telepon</label>
             <input type="text" class="form-control" id="nomer_telepon" name="nomer_telepon" placeholder="08xxxxxxxxxx" required>
             @error('nomer_telepon')
@@ -46,7 +47,7 @@
             @enderror
         </div>
 
-        <div class="form-group">
+        <div class="form-group mb-3">
             <label for="email">Email</label>
             <input type="email" class="form-control" id="email" name="email" placeholder="contoh@email.com" required>
             @error('email')
@@ -54,7 +55,7 @@
             @enderror
         </div>
 
-        <div class="form-group">
+        <div class="form-group mb-3">
             <label for="password">Password</label>
             <input type="password" class="form-control" id="password" name="password" placeholder="Minimal 6 karakter" required>
             @error('password')
@@ -62,7 +63,7 @@
             @enderror
         </div>
 
-        <div class="form-group">
+        <div class="form-group mb-4">
             <label for="role">Pilih Role</label>
             <select name="role" class="form-control" required>
                 <option value="">-- Pilih Role --</option>
@@ -75,7 +76,7 @@
             @enderror
         </div>
 
-        <div class="d-flex justify-content-between mt-4">
+        <div class="d-flex justify-content-between">
             <a href="{{ route('admin.members.index') }}" class="btn btn-secondary">Kembali</a>
             <button type="submit" class="btn btn-success">Simpan</button>
         </div>

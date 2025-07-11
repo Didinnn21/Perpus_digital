@@ -74,12 +74,12 @@
         </div>
 
         {{-- Tombol Cetak --}}
-        <div class="text-center my-4">
+        {{-- <div class="text-center my-4">
             <a href="{{ route('admin.laporan.cetak', ['bulan' => $bulan, 'tahun' => $tahun]) }}" target="_blank"
                 class="btn btn-danger btn-lg shadow-sm">
                 <i class="fas fa-print me-2"></i>Cetak Laporan
             </a>
-        </div>
+        </div> --}}
 
         <hr class="my-5">
 
@@ -92,7 +92,7 @@
             <div class="col-12 mb-5">
                 <div class="card shadow">
                     <div class="card-header bg-primary text-white">
-                        <h5 class="m-0"><i class="fas fa-book-reader me-2"></i>Daftar Peminjaman pada {{ $namaBulan }}
+                        <h5 class="m-0 text-white"><i class="fas fa-book me-2"></i>Daftar Peminjaman pada {{ $namaBulan }}
                             {{ $tahun }}</h5>
                     </div>
                     <div class="card-body">
@@ -132,7 +132,7 @@
             <div class="col-md-6 mb-5">
                 <div class="card shadow">
                     <div class="card-header bg-success text-white">
-                        <h5 class="m-0"><i class="fas fa-user-check me-2"></i>Anggota Aktif pada {{ $namaBulan }}
+                        <h5 class="m-0 text-white"><i class="fas fa-book me-2""></i>Anggota Aktif pada {{ $namaBulan }}
                             {{ $tahun }}</h5>
                     </div>
                     <div class="card-body">
@@ -168,7 +168,7 @@
             <div class="col-md-6 mb-5">
                 <div class="card shadow">
                     <div class="card-header bg-secondary text-white">
-                        <h5 class="m-0"><i class="fas fa-user-clock me-2"></i>Anggota Tidak Aktif pada {{ $namaBulan }}
+                        <h5 class="m-0 text-white"><i class="fas fa-book me-2"></i>Anggota Tidak Aktif pada {{ $namaBulan }}
                             {{ $tahun }}</h5>
                     </div>
                     <div class="card-body">
@@ -205,7 +205,7 @@
             <div class="col-12 mb-5">
                 <div class="card shadow border-danger">
                     <div class="card-header bg-danger text-white">
-                        <h5 class="m-0"><i class="fas fa-file-invoice-dollar me-2"></i>Laporan Denda pada {{ $namaBulan }}
+                        <h5 class="m-0 text-white"><i class="fas fa-book me-2"></i>Laporan Denda pada {{ $namaBulan }}
                             {{ $tahun }}</h5>
                     </div>
                     <div class="card-body">
