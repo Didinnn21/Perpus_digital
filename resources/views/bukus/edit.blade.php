@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('features')
-    <div class="container bg-white p-4 rounded shadow-sm mt-5 mb-5">
+    <div class="container bg-white p-4 rounded shadow-sm mb-5" style="margin-top: 200px;">
         <h3 class="mb-4 text-dark">Form Edit Buku</h3>
 
         <form action="{{ route('admin.bukus.update', $buku->id) }}" method="POST" enctype="multipart/form-data">
@@ -38,7 +38,6 @@
                 @error('tahun_terbit') <small class="text-danger">{{ $message }}</small> @enderror
             </div>
 
-            <!-- Tambahan: Jumlah Unit -->
             <div class="form-group">
                 <label for="jumlah_unit">Jumlah Unit</label>
                 <input type="number" class="form-control" id="jumlah_unit" name="jumlah_unit" value="{{ old('jumlah_unit', $buku->jumlah_unit) }}" required>

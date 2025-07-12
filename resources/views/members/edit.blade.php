@@ -17,7 +17,7 @@
 @endsection
 
 @section('features')
-<div class="container bg-white p-4 rounded shadow-sm mb-5" style="margin-top: 150px;">
+<div class="container bg-white p-4 rounded shadow-sm mb-5" style="margin-top: 200px;">
   <h3 class="mb-4 text-dark">Form Edit Member</h3>
 
   <form action="{{ route('admin.members.update', $member->id) }}" method="POST">

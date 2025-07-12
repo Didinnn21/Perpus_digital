@@ -17,7 +17,7 @@
 @endsection
 
 @section('features')
-<div class="container bg-white p-4 rounded shadow-sm mt-5 mb-5">
+<div class="container bg-white p-4 rounded shadow-sm mb-5" style="margin-top: 200px;">
     <h3 class="mb-4 text-dark">Form Peminjaman Buku</h3>
 
     @if(session('failed'))
@@ -53,7 +53,7 @@
             <input type="date" name="tanggal_pinjam" id="tanggal_pinjam" class="form-control" value="{{ date('Y-m-d') }}" readonly>
         </div>
 
-        {{-- Kolom Tanggal Kembali (pilihan kelipatan 7 hari) --}}
+        {{-- Kolom Tanggal Kembali --}}
         <div class="form-group">
             <label for="tanggal_kembali">Pilih Tanggal Kembali</label>
             <select name="tanggal_kembali" id="tanggal_kembali" class="form-control" required>
