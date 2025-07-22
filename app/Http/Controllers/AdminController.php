@@ -36,13 +36,20 @@ class AdminController extends Controller
             $grafikData[] = $peminjamanPerBulan[$i] ?? 0;
         }
 
+        // Add this: Get recent borrowing activities
+        $aktivitasTerbaru = Peminjaman::with(['member', 'buku'])
+            ->orderBy('created_at', 'desc')
+            ->limit(5)
+            ->get();
+
         return view('admin.dashboard', compact(
             'totalBuku',
             'totalAnggota',
             'anggotaMeminjam',
             'grafikData',
             'tahun',
-            'tahunList'
+            'tahunList',
+            'aktivitasTerbaru' // Add this line
         ));
     }
 

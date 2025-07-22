@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="{{ asset('template/css/owl.css') }}">
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
 
-    <!-- ✅ FIX konten tertimpa navbar -->
+    @stack('styles')
     <style>
         body {
             padding-top: 120px; /* Sesuaikan dengan tinggi navbar */
@@ -120,7 +120,7 @@
     <script src="{{ asset('template/js/counter.js') }}"></script>
     <script src="{{ asset('template/js/custom.js') }}"></script>
 
-    @yield('scripts')
+    @stack('scripts')
 
 </body>
 
